@@ -5,7 +5,7 @@ var request = require('request');
 app.set('port', (process.env.PORT || 5000));
 // app.use(express.static(__dirname + '/frontend'));
 
-app.get('/', function(request, response) {
+app.get('/', function(req, res) {
   	
 	console.log("hi");
   	//Yo
@@ -14,7 +14,7 @@ app.get('/', function(request, response) {
 	request.post(
 	    'http://api.justyo.co/yo/',
 	    { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
-	              'username': request.query.username,
+	              'username': req.query.username,
 	              'link': 'http://google.com' } },
 	    function (error, response, body) {
 	        if (!error && response.statusCode == 200) {
@@ -23,7 +23,7 @@ app.get('/', function(request, response) {
 	    }
 	);
 
-	response.sendfile('frontend/index.html');
+	res.sendfile('frontend/index.html');
 });
 
 app.listen(app.get('port'), function() {
