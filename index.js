@@ -28,7 +28,7 @@ app.get('/', function(req, res, next) {
 		    'http://api.justyo.co/yo/',
 		    { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
 		              'username': req.query.username,
-		              'link': 'yoplay.x10host.com' } },
+		              'link': 'http://yoplay.x10host.com' } },
 		    function (error, response, body) {
 		        if (!error && response.statusCode == 200) {
 		            console.log(body);
@@ -45,8 +45,7 @@ app.get('/', function(req, res, next) {
 
 	//this will display index.html found in the frontend folder
 	function(req, res, next){
-		app.use(express.static('frontend'));
-		res.sendfile(__dirname + '/frontend/index.html');
+		
 });
 
 //init express stuff
