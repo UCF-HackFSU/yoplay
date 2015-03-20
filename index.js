@@ -4,7 +4,7 @@ var app = express();
 app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/frontend'));
 
-app.get('/', function(request, response) {
+app.get('/yo', function(request, response) {
   response.sendfile('frontend/index.html');
 });
 
