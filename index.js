@@ -6,7 +6,7 @@ app.use(express.static(__dirname + '/frontend'));
 
 app.get('/', function(request, response) {
   	
-
+		console.log("hi");
   	//Yo
   	// if(request.query.username != null){
 	  	
