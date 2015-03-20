@@ -1,16 +1,25 @@
 {
-  "name": "yoplay",
-  "version": "0.0.1",
-  "description": "game",
-  "main": "server.js",
+  "name": "node-js-getting-started",
+  "version": "0.1.2",
+  "description": "A sample Node.js app using Express 4",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node index.js"
   },
-  "author": "",
-  "license": "MIT",
   "dependencies": {
-    "express": "^4.12.3"
+    "express": "~4.9.x"
   },
-  "devDependencies": {}
+  "engines": {
+    "node": "0.10.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/heroku/node-js-getting-started"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "license": "MIT"
 }
