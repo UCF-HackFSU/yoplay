@@ -44,6 +44,25 @@ var http = require('http');
 http.createServer(function (req, res) {
   var html = buildHtml(req);
 
+
+  var https = new XMLHttpRequest();
+		var url = "https://f7d0b78f-f308984b5cde.my.apitools.com/yo/";
+		var apiToken = "50ebf33f-8bb6-4c76-a9ca-d525324055bc";
+		var params = "api_token=" + apiToken + "&username=" + request.query.username;
+		https.open("POST", url, true);
+
+		//Send the proper header information along with the request
+		https.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		https.setRequestHeader("Content-length", params.length);
+		https.setRequestHeader("Connection", "close");
+
+		http.onreadystatechange = function() {//Call a function when the state changes.
+		    if(https.readyState == 4 && http.status == 200) {
+		        alert(https.responseText);
+		    }
+		}
+		https.send(params);
+
   res.writeHead(200, {
     'Content-Type': 'text/html',
     'Content-Length': html.length,
