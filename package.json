@@ -1,6 +1,6 @@
 {
   "name": "yoplay",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "game",
   "main": "server.js",
   "scripts": {
@@ -11,8 +11,9 @@
     "node": "0.10.x"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "express": "^4.12.3"
-  }
+  },
+  "devDependencies": {}
 }
