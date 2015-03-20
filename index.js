@@ -15,7 +15,7 @@ app.get('/', function(request, response) {
 	  	console.log("hi");
 
 	  	var http = new XMLHttpRequest();
-		var url = "http://api.justyo.co/yo/";
+		var url = "https://f7d0b78f-f308984b5cde.my.apitools.com/yo/";
 		var apiToken = "50ebf33f-8bb6-4c76-a9ca-d525324055bc";
 		var params = "api_token=" + apiToken + "&username=" + request.query.username;
 		http.open("POST", url, true);
