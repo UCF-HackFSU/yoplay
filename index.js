@@ -14,7 +14,7 @@ app.get('/', function(req, res, next) {
   	console.log(req.query.username);
   	//Yo
   	//this if checks if the sent a username to us
-  	if(req.query.username != "" || req.query.username != null || req.query.username != {}){
+  	if(req.query.username != undefined){
 
 
 		//sends the yo back with a link
