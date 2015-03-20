@@ -39,17 +39,26 @@
 // app.listen(app.get('port'), function() {
 //   console.log("Node app is running at localhost:" + app.get('port'));
 // });
-var http = require('http'),
-    fs = require('fs');
+var http = require('http');
 
+http.createServer(function (req, res) {
+  var html = buildHtml(req);
 
-fs.readFile('frontend/index.html', function (err, html) {
-    if (err) {
-        throw err; 
-    }       
-    http.createServer(function(request, response) {  
-        response.writeHead(200, {"Content-Type": "text/html"});  
-        response.write(html);  
-        response.end();  
-    }).listen(8000);
-});
+  res.writeHead(200, {
+    'Content-Type': 'text/html',
+    'Content-Length': html.length,
+    'Expires': new Date().toUTCString()
+  });
+  res.end(html);
+}).listen(process.env.PORT || 8080);
+
+function buildHtml(req) {
+  var header = '';
+  var body = '';
+
+  // concatenate header string
+  // concatenate body string
+
+  return '<!DOCTYPE html>'
+       + '<html><header>' + header + '</header><body>' + body + '</body></html>';
+};
