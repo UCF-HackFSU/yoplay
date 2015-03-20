@@ -40,7 +40,7 @@ app.get('/', function(req, res, next) {
 	//this will display index.html found in the frontend folder
 	function(req, res, next){
 		app.use(express.static('frontend'));
-		res.sendFile('./frontend/index.html');
+		res.sendfile(__dirname + '/frontend/index.html');
 });
 
 //init express stuff
