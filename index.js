@@ -13,16 +13,22 @@ app.get('/', function(req, res, next) {
   	
   	console.log(req.query.username);
   	//Yo
-  	//this if checks if the sent a username to us
+  	//this if checks if they sent a username to us
   	if(req.query.username != undefined){
 
+  		if(req.query.location != undefined){
+  			console.log("we got a location! : " + req.query.location);
+
+  			//send yo
+
+  		}
 
 		//sends the yo back with a link
 		request.post(
 		    'http://api.justyo.co/yo/',
 		    { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
 		              'username': req.query.username,
-		              'link': 'http://yo-play.herokuapp.com/' } },
+		              'link': 'yoplay.x10host.com' } },
 		    function (error, response, body) {
 		        if (!error && response.statusCode == 200) {
 		            console.log(body);
