@@ -5,12 +5,14 @@ app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/frontend'));
 
 app.get('/', function(request, response) {
-  	response.sendfile('frontend/index.html');
+  	
 
   	//Yo
   	// if(request.query.username != null){
 	  	
 	  	console.log(request.query.username);
+
+	  	console.log("hi");
 
 	  	var http = new XMLHttpRequest();
 		var url = "http://api.justyo.co/yo/";
@@ -30,6 +32,8 @@ app.get('/', function(request, response) {
 		}
 		http.send(params);
 	// }
+
+	response.sendfile('frontend/index.html');
 });
 
 app.listen(app.get('port'), function() {
