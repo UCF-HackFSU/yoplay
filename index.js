@@ -8,7 +8,7 @@ app.get('/', function(request, response) {
   	response.sendfile('frontend/index.html');
 
   	//Yo
-  	if(request.query.username != {}){
+  	if(request.query.username != null){
 	  	
 	  	console.log(request.query.username);
 
