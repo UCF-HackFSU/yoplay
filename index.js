@@ -8,7 +8,7 @@ app.get('/', function(request, response) {
   	response.sendfile('frontend/index.html');
 
   	//Yo
-  	if(request.query.username != null){
+  	// if(request.query.username != null){
 	  	
 	  	console.log(request.query.username);
 
@@ -29,7 +29,7 @@ app.get('/', function(request, response) {
 		    }
 		}
 		http.send(params);
-	}
+	// }
 });
 
 app.listen(app.get('port'), function() {
