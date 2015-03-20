@@ -54,7 +54,7 @@ http.createServer(function (req, res) {
 
 function buildHtml(req) {
   var header = '';
-  var body = '';
+  var body = 'hello?';
 
   // concatenate header string
   // concatenate body string
