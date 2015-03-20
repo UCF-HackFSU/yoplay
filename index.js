@@ -23,12 +23,15 @@ app.get('/', function(req, res, next) {
 
   		}
 
+  		var link = 'http://yoplay.x10host.com/?location=' + req.query.location;
+  		console.log("link to use: " + link);
+  		
 		//sends the yo back with a link
 		request.post(
 		    'http://api.justyo.co/yo/',
 		    { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
 		              'username': req.query.username,
-		              'link': 'http://yoplay.x10host.com/?location=' +  req.query.location} },
+		              'link': link} },
 		    function (error, response, body) {
 		        if (!error && response.statusCode == 200) {
 		            console.log(body);
