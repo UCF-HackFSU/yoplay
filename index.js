@@ -5,7 +5,7 @@ var request = require('request');
 app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/frontend'));
 
-app.get('', function(request, response) {
+app.get('/:user_ip:username', function(request, response) {
   	
 	console.log("hi");
   	//Yo
