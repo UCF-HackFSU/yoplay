@@ -7,22 +7,21 @@ app.set('port', (process.env.PORT || 5000));
 
 app.get('/', function(req, res) {
   	
-	console.log("hi");
+  	
   	//Yo
-  	//var request = require('request');
-
-	request.post(
-	    'http://api.justyo.co/yo/',
-	    { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
-	              'username': req.query.username,
-	              'link': 'http://google.com' } },
-	    function (error, response, body) {
-	        if (!error && response.statusCode == 200) {
-	            console.log(body);
-	        }
-	    }
-	);
-
+  	if(req.query.username != "" || req.query.username != null || req.query.username != {}){
+		request.post(
+		    'http://api.justyo.co/yo/',
+		    { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
+		              'username': req.query.username,
+		              'link': 'http://yo-play.herokuapp.com/' } },
+		    function (error, response, body) {
+		        if (!error && response.statusCode == 200) {
+		            console.log(body);
+		        }
+		    }
+		);
+	}
 	res.sendfile('frontend/index.html');
 });
 
