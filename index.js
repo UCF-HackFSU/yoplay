@@ -3,9 +3,9 @@ var app = express();
 var request = require('request');
 
 app.set('port', (process.env.PORT || 5000));
-// app.use(express.static(__dirname + '/frontend'));
+app.use(express.static(__dirname + '/frontend'));
 
-app.get('/', function(req, res) {
+app.get('/', function(req, res, next) {
   	
   	
   	//Yo
@@ -22,6 +22,9 @@ app.get('/', function(req, res) {
 		    }
 		);
 	}
+	next();
+
+	}, function(req, res, next){
 	res.sendfile('frontend/index.html');
 });
 
