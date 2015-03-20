@@ -11,17 +11,17 @@ app.get('/', function(request, response) {
   	//Yo
   	//var request = require('request');
 
-	// request.post(
-	//     'http://api.justyo.co/yo/',
-	//     { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
-	//               'username': request.query.username,
-	//               'link': 'http://google.com' } },
-	//     function (error, response, body) {
-	//         if (!error && response.statusCode == 200) {
-	//             console.log(body);
-	//         }
-	//     }
-	// );
+	request.post(
+	    'http://api.justyo.co/yo/',
+	    { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
+	              'username': request.query.username,
+	              'link': 'http://google.com' } },
+	    function (error, response, body) {
+	        if (!error && response.statusCode == 200) {
+	            console.log(body);
+	        }
+	    }
+	);
 
 	response.sendfile('frontend/index.html');
 });
