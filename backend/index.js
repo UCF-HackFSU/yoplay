@@ -39,7 +39,7 @@ io.on('connection', function (socket) {
  
 
   socket.on('update.location', function (data) {
-    console.log("update location data: " + data);
+    console.log("update location data: " + JSON.stringify(data));
   });
 });
 
