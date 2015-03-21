@@ -1,15 +1,15 @@
 //imports 
-// var express = require('express'); //express handles GET requests from Yoes
-// var request = require('request'); //requests calls the Yo API
-// var mongodb = require('mongojs'); //mongo swag
+var express = require('express'); //express handles GET requests from Yoes
+var request = require('request'); //requests calls the Yo API
+var mongodb = require('mongojs'); //mongo swag
 
-// var uri = "yoplay",
-//     db = mongodb(uri);
+var uri = "yoplay",
+    db = mongodb(uri);
 
 
 
 //init express stuff
-// var app = express();
+var app = express();
 
 var app = require('http').createServer(handler)
 var io = require('socket.io')(app);
