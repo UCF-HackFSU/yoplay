@@ -4,7 +4,7 @@ var request = require('request'); //requests calls the Yo API
 var mongodb = require('mongojs'); //mongo swag
 
 var uri = "yoplay",
-    db = mongojs(uri);
+    db = mongodb(uri);
 
 
 
