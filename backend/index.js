@@ -31,7 +31,7 @@ function handler (req, res) {
 
 var curLat = 28.602140;
 var curLon = -81.198976;
-var epsilon = 0.0000909;
+var epsilon = 0.0004000;
 
 
 io.on('connection', function (socket) {
