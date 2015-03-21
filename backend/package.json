@@ -2,7 +2,7 @@
   "name": "yoplay",
   "version": "0.0.1",
   "description": "Just Play",
-  "main": "index.js",
+  "main": "backend/index.js",
   "scripts": {
     "start": "node backend/index.js"
   },
