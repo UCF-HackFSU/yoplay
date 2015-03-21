@@ -109,5 +109,8 @@ appE.get('/', function(req, res, next) {
 		
 });
 
+appE.listen(appE.get('port'), function(){
+	console.log("listening on " + appE.get('port'));
+});
 
 
