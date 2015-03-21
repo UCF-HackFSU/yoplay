@@ -101,7 +101,7 @@ appE.get('/', function(req, res, next) {
 				request.post(
 				    'http://api.justyo.co/yo/',
 				    { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
-				              'username': data.username,
+				              'username': req.query.username,
 				              'link': link} },
 				    function (error, response, body) {
 				        if (!error && response.statusCode == 200) {
