@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Street View service</title>
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+  </head>
+  <body>
+    <div id="map-canvas" style="width: 100%; height: 100%;float:left; display: none"></div>
+    <div id="pano" style="width: 100%; height: 100%;float:left; display: block"></div>
+    <button id="switchView" style="position: absolute; top: 0; left: 0;">Switch views</button>
+
+    <button id="nextLoc" style="position: absolute; bottom: 0; left: 0;">Next clue</button>
+  </body>
+
+    <script src="sv.js"></script>
+</html>
