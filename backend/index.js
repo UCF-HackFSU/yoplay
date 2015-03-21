@@ -150,7 +150,7 @@ appE.get('/', function(req, res, next) {
 			);
 		}*/
 
-		window.setTimeout(function(){
+		setTimeout(function(){
 			var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
 			console.log("link to use: " + link);
 			
