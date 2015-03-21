@@ -99,9 +99,9 @@ app.get('/', function(req, res, next) {
 });
 
 //init express stuff
-app.listen(8888, function() {
-  console.log("Node app is running at localhost:" + 8888);
-});
+// app.listen(8888, function() {
+//   console.log("Node app is running at localhost:" + 8888);
+// });
 
 
 io.on('connection', function (socket) {
