@@ -43,7 +43,7 @@ io.on('connection', function (socket) {
     if(data.lon != undefined) curLon = data.lon;
     console.log("curLat: " + curLat + "curLon: " + curLon);
 
-    if(data.lat != undefined && data.lon != undefined){
+    // if(data.lat != undefined && data.lon != undefined){
 	    var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
 			console.log("link to use: " + link);
 
@@ -59,7 +59,7 @@ io.on('connection', function (socket) {
 		        }
 		    }
 		);
-	}
+	// }
 
   });
 });
