@@ -1,10 +1,27 @@
 //imports 
 var express = require('express'); //express handles GET requests from Yoes
 var request = require('request'); //requests calls the Yo API
+var mongodb = require('mongodb'); //mongo swag
+
 
 //init express stuff
 var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
+server.listen(8888);
+
+var uri = process.env.MONGOLAB_URI;
+
+mongodb.MongoClient.connect(uri, function (err, db) {
+    /* adventure! */
+
+    var game = db.collection("game");
+
+    game.find().toArray(function (err,items) {
+    	console.log(items);
+    });
+});
 //init express stuff
 app.set('port', (process.env.PORT || 5000));
 
@@ -16,10 +33,26 @@ app.get('/', function(req, res, next) {
   	//this if checks if they sent a username to us
   	if(req.query.username != undefined){
 
+  		var hasGame = false;
+  		mongodb.MongoClient.connect(uri, function (err, db) {
+		    /* adventure! */
+
+		    var users = db.collection("users");
+
+		    if(users.find({username:req.query.username}).count() != 0){
+		    	hasGame = true;
+		    }
+		    
+		});
+
+		console.log("Username: " + req.query.username + " has game: " + hasGame);
+
+
   		if(req.query.location != undefined){
   			console.log("we got a location! : " + req.query.location);
 
   			//send yo
+
 
   		}
 
@@ -41,6 +74,7 @@ app.get('/', function(req, res, next) {
 	}
 	//end Yo
 
+
 	//goes to the next fuction
 	next();
 
@@ -55,3 +89,13 @@ app.get('/', function(req, res, next) {
 app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'));
 });
+
+
+io.on('connection', function (socket) {
+  socket.on('update.location', function (data) {
+    console.log(data);
+  });
+});
+
+
+

@@ -2,13 +2,15 @@
   "name": "yoplay",
   "version": "0.0.1",
   "description": "Just Play",
-  "main": "backend/index.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node backend/index.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "express": "~4.9.x",
-    "request": "^2.53.0"
+    "mongodb": "^1.4.34",
+    "request": "^2.53.0",
+    "socket.io": "^1.3.5"
   },
   "engines": {
     "node": "0.10.x"
