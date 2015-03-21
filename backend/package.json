@@ -4,7 +4,7 @@
   "description": "Just Play",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node backend/index.js"
   },
   "dependencies": {
     "express": "~4.9.x",
