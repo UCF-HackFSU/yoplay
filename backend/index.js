@@ -57,7 +57,7 @@ io.on('connection', function (socket) {
 	            console.log(body);
 	        }
 	    }
-	);
+		);
 
   });
 });
@@ -94,6 +94,22 @@ appE.get('/', function(req, res, next) {
   			if(dist(lat, lon) <= epsilon) {
   				io.sockets.emit('generate.location', {username:req.query.username, lat:lat, lon:lon});
   				console.log("Location match! Requested new location");
+  				var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
+				console.log("link to use: " + link);
+
+
+				request.post(
+				    'http://api.justyo.co/yo/',
+				    { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
+				              'username': data.username,
+				              'link': link} },
+				    function (error, response, body) {
+				        if (!error && response.statusCode == 200) {
+				            console.log(body);
+				        }
+				    }
+				);
+
   			} else {
   				console.log("Try to get closer");
 
