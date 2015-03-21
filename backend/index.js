@@ -31,18 +31,20 @@ function handler (req, res) {
 }
 
 io.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
+	console.log("pls");
+ 
+
+  socket.on('update.location', function (data) {
     console.log(data);
   });
 });
 
 
-    var game = db.collection("game");
+var game = db.collection("game");
 
-    game.find().toArray(function (err,items) {
-    	console.log(items);
-    });
+game.find().toArray(function (err,items) {
+	console.log(items);
+});
 
 appE.set('port', (process.env.PORT || 5000));
 
@@ -105,16 +107,6 @@ appE.get('/', function(req, res, next) {
 	function(req, res, next){
 		
 });
-
-
-// io.on('connection', function (socket) {
-// 	console.log("pls");
- 
-
-//   socket.on('update.location', function (data) {
-//     console.log(data);
-//   });
-// });
 
 
 
