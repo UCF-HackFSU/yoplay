@@ -43,21 +43,23 @@ io.on('connection', function (socket) {
     if(data.lon != undefined) curLon = data.lon;
     console.log("curLat: " + curLat + "curLon: " + curLon);
 
-    var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
-		console.log("link to use: " + link);
+    if(data.lat != undefined && data.lon != undefined){
+	    var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
+			console.log("link to use: " + link);
 
 
 		request.post(
-	    'http://api.justyo.co/yo/',
-	    { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
-	              'username': 'isabellacmor',
-	              'link': link} },
-	    function (error, response, body) {
-	        if (!error && response.statusCode == 200) {
-	            console.log(body);
-	        }
-	    }
+		    'http://api.justyo.co/yo/',
+		    { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
+		              'username': 'isabellacmor',
+		              'link': link} },
+		    function (error, response, body) {
+		        if (!error && response.statusCode == 200) {
+		            console.log(body);
+		        }
+		    }
 		);
+	}
 
   });
 });
