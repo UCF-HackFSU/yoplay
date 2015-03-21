@@ -27,7 +27,7 @@ var uri = "http://localhost:27017";
     });
 // });
 //init express stuff
-app.set('port', (process.env.PORT || 5000));
+// app.set('port', (process.env.PORT || 5000));
 
 //When we get a GET request
 app.get('/', function(req, res, next) {
@@ -93,9 +93,9 @@ app.get('/', function(req, res, next) {
 });
 
 //init express stuff
-app.listen(app.get('port'), function() {
-  console.log("Node app is running at localhost:" + app.get('port'));
-});
+// app.listen(app.get('port'), function() {
+//   console.log("Node app is running at localhost:" + app.get('port'));
+// });
 
 
 io.on('connection', function (socket) {
