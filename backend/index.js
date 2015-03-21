@@ -35,7 +35,7 @@ var SOCK;
 io.on('connection', function (socket) {
 	console.log("pls");
 
-	SOCK = socket;
+	// SOCK = socket;
  
 
   socket.on('update.location', function (data) {
@@ -79,7 +79,7 @@ appE.get('/', function(req, res, next) {
   			var lon = req.query.location.split(";")[1];
 
   			//send yo
-  			SOCK.emit('generate.location', {username:req.query.username, lat:lat, lon:lon});
+  			io.sockets.emit('generate.location', {username:req.query.username, lat:lat, lon:lon});
   			console.log("Requested new location");
 
   		}
