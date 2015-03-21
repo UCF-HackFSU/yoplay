@@ -41,6 +41,7 @@ io.on('connection', function (socket) {
     console.log("update location data: " + JSON.stringify(data));
     curLat = data.lat;
     curLon = data.lon;
+    console.log("curLat: " + curLat + "curLon: " + curLon);
   });
 });
 
@@ -63,13 +64,6 @@ appE.get('/', function(req, res, next) {
 
   		var hasGame = false;
 
-	    // var users = db.collection("users");
-
-	    // if(users.find({username:req.query.username}).count() != 0){
-	    // 	hasGame = true;
-	    // }
-		    
-
 		console.log("Username: " + req.query.username + " has game: " + hasGame);
 
 
@@ -81,7 +75,7 @@ appE.get('/', function(req, res, next) {
 
   			if(dist(lat, lon) <= epsilon) {
   				io.sockets.emit('generate.location', {username:req.query.username, lat:lat, lon:lon});
-  				console.log("Requested new location");
+  				console.log("Location match! Requested new location");
   			} else {
   				console.log("Try to get closer");
   			}
