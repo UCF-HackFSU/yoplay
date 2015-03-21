@@ -87,7 +87,7 @@ appE.get('/', function(req, res, next) {
   			}
   		}
 
-  		var link = 'http://yoplay.x10host.com/?location=' + req.query.location;
+  		var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
   		console.log("link to use: " + link);
   		
 		//sends the yo back with a link
