@@ -70,8 +70,8 @@ appE.get('/', function(req, res, next) {
   		if(req.query.location != undefined){
   			console.log("we got a location! : " + req.query.location);
 
-  			var lat = req.query.location.split(";")[0];
-  			var lon = req.query.location.split(";")[1];
+  			var lat = parseFloat(req.query.location.split(";")[0]);
+  			var lon = parseFloat(req.query.location.split(";")[1]);
 
   			console.log("dist: " + dist(lat, lon) + " <= " + epsilon);
   			if(dist(lat, lon) <= epsilon) {
