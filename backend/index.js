@@ -44,7 +44,7 @@ io.on('connection', function (socket) {
     	console.log(items);
     });
 
-// app.set('port', (process.env.PORT || 5000));
+app.set('port', (process.env.PORT || 5000));
 
 //When we get a GET request
 // app.get('/', function(req, res, next) {
