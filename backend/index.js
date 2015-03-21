@@ -38,18 +38,12 @@ io.on('connection', function (socket) {
 });
 
 
-// var uri = "http://localhost:27017";
+    var game = db.collection("game");
 
-// // mongodb.MongoClient.connect(uri, function (err, db) {
-//     /* adventure! */
+    game.find().toArray(function (err,items) {
+    	console.log(items);
+    });
 
-//     var game = db.collection("game");
-
-//     game.find().toArray(function (err,items) {
-//     	console.log(items);
-//     });
-// });
-//init express stuff
 // app.set('port', (process.env.PORT || 5000));
 
 //When we get a GET request
