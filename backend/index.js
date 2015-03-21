@@ -32,6 +32,11 @@ function handler (req, res) {
 var curLat = 28.602140;
 var curLon = -81.198976;
 var epsilon = 0.0004000;
+var elapsedClues = 1;
+var lastUser = "";
+var pointsArr = [];
+
+var points = db.collection("points");
 
 
 io.on('connection', function (socket) {
@@ -45,29 +50,21 @@ io.on('connection', function (socket) {
 
     if(data.lat != undefined && data.lon != undefined){
 	    var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
-			console.log("link to use: " + link);
+		console.log("link to use: " + link);
+
+		var tempPoint = {lat:data.lat,lon:data.lon};
+		pointsArr.push(tempPoint);
+		lastUser = data.username;
+		elapsedClues++;
+		//TODO:Add lat lon to Mongo
 
 
-		/*request.post(
-		    'http://api.justyo.co/yo/',
-		    { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
-		              'username': 'ISABELLACMOR',
-		              'link': link} },
-		    function (error, response, body) {
-		        if (!error && response.statusCode == 200) {
-		            console.log(body);
-		        }
-		    }
-		);*/
 	 }
 
   });
 });
 
-
-var game = db.collection("game");
-
-game.find().toArray(function (err,items) {
+points.find().toArray(function (err,items) {
 	console.log(items);
 });
 
@@ -151,7 +148,7 @@ appE.get('/', function(req, res, next) {
 		}*/
 
 		setTimeout(function(){
-			var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
+			var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon + "&lastUser=" + lastUser + "&elapsedClues=" + elapsedClues;
 			console.log("link to use: " + link);
 			
 			//sends the yo back with a link
