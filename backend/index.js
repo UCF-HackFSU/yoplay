@@ -17,7 +17,7 @@ server.listen(8888);
 
 var uri = "http://localhost:27017";
 
-mongodb.MongoClient.connect(uri, function (err, db) {
+// mongodb.MongoClient.connect(uri, function (err, db) {
     /* adventure! */
 
     var game = db.collection("game");
@@ -25,7 +25,7 @@ mongodb.MongoClient.connect(uri, function (err, db) {
     game.find().toArray(function (err,items) {
     	console.log(items);
     });
-});
+// });
 //init express stuff
 app.set('port', (process.env.PORT || 5000));
 
@@ -38,7 +38,7 @@ app.get('/', function(req, res, next) {
   	if(req.query.username != undefined){
 
   		var hasGame = false;
-  		mongodb.MongoClient.connect(uri, function (err, db) {
+  		// mongodb.MongoClient.connect(uri, function (err, db) {
 		    /* adventure! */
 
 		    var users = db.collection("users");
@@ -47,7 +47,7 @@ app.get('/', function(req, res, next) {
 		    	hasGame = true;
 		    }
 		    
-		});
+		// });
 
 		console.log("Username: " + req.query.username + " has game: " + hasGame);
 
