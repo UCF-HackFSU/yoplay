@@ -23,7 +23,7 @@ app.listen(8888);
 
 var uri = "http://localhost:27017";
 
-mongodb.MongoClient.connect(uri, function (err, db) {
+// mongodb.MongoClient.connect(uri, function (err, db) {
     /* adventure! */
 
     var game = db.collection("game");
@@ -31,7 +31,7 @@ mongodb.MongoClient.connect(uri, function (err, db) {
     game.find().toArray(function (err,items) {
     	console.log(items);
     });
-});
+// });
 //init express stuff
 app.set('port', (process.env.PORT || 5000));
 
