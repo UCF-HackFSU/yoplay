@@ -42,6 +42,23 @@ io.on('connection', function (socket) {
     if(data.lat != undefined) curLat = data.lat;
     if(data.lon != undefined) curLon = data.lon;
     console.log("curLat: " + curLat + "curLon: " + curLon);
+
+    var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
+		console.log("link to use: " + link);
+
+
+		request.post(
+	    'http://api.justyo.co/yo/',
+	    { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
+	              'username': data.username,
+	              'link': link} },
+	    function (error, response, body) {
+	        if (!error && response.statusCode == 200) {
+	            console.log(body);
+	        }
+	    }
+	);
+
   });
 });
 
@@ -79,24 +96,41 @@ appE.get('/', function(req, res, next) {
   				console.log("Location match! Requested new location");
   			} else {
   				console.log("Try to get closer");
-  			}
-  		}
 
-  		var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
-  		console.log("link to use: " + link);
-  		
-		//sends the yo back with a link
-		request.post(
-		    'http://api.justyo.co/yo/',
-		    { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
-		              'username': req.query.username,
-		              'link': link} },
-		    function (error, response, body) {
-		        if (!error && response.statusCode == 200) {
-		            console.log(body);
-		        }
-		    }
-		);
+  				var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
+  				console.log("link to use: " + link);
+
+
+  				request.post(
+				    'http://api.justyo.co/yo/',
+				    { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
+				              'username': req.query.username,
+				              'link': link} },
+				    function (error, response, body) {
+				        if (!error && response.statusCode == 200) {
+				            console.log(body);
+				        }
+				    }
+				);
+  			}
+  		}else{
+
+			var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
+			console.log("link to use: " + link);
+			
+			//sends the yo back with a link
+			request.post(
+			    'http://api.justyo.co/yo/',
+			    { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
+			              'username': req.query.username,
+			              'link': link} },
+			    function (error, response, body) {
+			        if (!error && response.statusCode == 200) {
+			            console.log(body);
+			        }
+			    }
+			);
+		}
 	}
 	//end Yo
 
