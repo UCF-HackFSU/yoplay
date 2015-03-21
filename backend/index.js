@@ -75,7 +75,7 @@ appE.get('/', function(req, res, next) {
   			var lon = req.query.location.split(";")[1];
 
   			//send yo
-  			socket.emit('generate.location', {username:req.query.username, lat:lat, lon:lon});
+  			// socket.emit('generate.location', {username:req.query.username, lat:lat, lon:lon});
   			console.log("Requested new location");
 
   		}
