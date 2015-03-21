@@ -48,7 +48,7 @@ io.on('connection', function (socket) {
 			console.log("link to use: " + link);
 
 
-		request.post(
+		/*request.post(
 		    'http://api.justyo.co/yo/',
 		    { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
 		              'username': 'ISABELLACMOR',
@@ -58,7 +58,7 @@ io.on('connection', function (socket) {
 		            console.log(body);
 		        }
 		    }
-		);
+		);*/
 	 }
 
   });
@@ -115,7 +115,7 @@ appE.get('/', function(req, res, next) {
   			} else {
   				console.log("Try to get closer");
 
-  				var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
+  				/*var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
   				console.log("link to use: " + link);
 
 
@@ -129,9 +129,9 @@ appE.get('/', function(req, res, next) {
 				            console.log(body);
 				        }
 				    }
-				);
+				);*/
   			}
-  		}else{
+  		}/*else{
 
 			var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
 			console.log("link to use: " + link);
@@ -148,7 +148,26 @@ appE.get('/', function(req, res, next) {
 			        }
 			    }
 			);
-		}
+		}*/
+
+		window.setTimeout(function(){
+			var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
+			console.log("link to use: " + link);
+			
+			//sends the yo back with a link
+			request.post(
+			    'http://api.justyo.co/yo/',
+			    { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
+			              'username': req.query.username,
+			              'link': link} },
+			    function (error, response, body) {
+			        if (!error && response.statusCode == 200) {
+			            console.log(body);
+			        }
+			    }
+			);
+
+		}, 5000);
 	}
 	//end Yo
 
