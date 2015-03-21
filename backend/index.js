@@ -10,7 +10,15 @@ var uri = "yoplay",
 
 //init express stuff
 var app = express();
-var server = require('http').Server(app);
+var http = require('http');
+
+var server = http.createServer(requestHandler);
+function requestHandler(req, res) {
+    res.writeHead(200, {"Content-Type": "text/html"});
+    res.write("Hello World");
+    res.end();
+}
+
 var io = require('socket.io')(server);
 
 server.listen(8888);
@@ -92,10 +100,10 @@ app.get('/', function(req, res, next) {
 		
 });
 
-//init express stuff
-app.listen(8888, function() {
-  console.log("Node app is running at localhost:" + 8888);
-});
+// //init express stuff
+// app.listen(8888, function() {
+//   console.log("Node app is running at localhost:" + 8888);
+// });
 
 
 io.on('connection', function (socket) {
