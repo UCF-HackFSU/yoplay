@@ -32,16 +32,16 @@ function handler (req, res) {
 }
 
 
-var uri = "http://localhost:27017";
+// var uri = "http://localhost:27017";
 
 // mongodb.MongoClient.connect(uri, function (err, db) {
     /* adventure! */
 
-    var game = db.collection("game");
+    // var game = db.collection("game");
 
-    game.find().toArray(function (err,items) {
-    	console.log(items);
-    });
+    // game.find().toArray(function (err,items) {
+    // 	console.log(items);
+    // });
 // });
 //init express stuff
 // app.set('port', (process.env.PORT || 5000));
