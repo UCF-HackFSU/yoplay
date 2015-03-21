@@ -46,7 +46,7 @@ game.find().toArray(function (err,items) {
 	console.log(items);
 });
 
-appE.set('port', (process.env.PORT || 5000));
+//appE.set('port', (process.env.PORT || 5000));
 
 //When we get a GET request
 appE.get('/', function(req, res, next) {
