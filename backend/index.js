@@ -2,7 +2,7 @@
 var express = require('express'); //express handles GET requests from Yoes
 var request = require('request'); //requests calls the Yo API
 // var mongodb = require('mongojs'); //mongo swag
-var bodyParser = require("body-parser");
+// var bodyParser = require("body-parser");
 
 var uri = "yoplay";
 //     db = mongodb(uri);
@@ -12,7 +12,7 @@ var uri = "yoplay";
 //init express stuff
 var appE = express();
 
-appE.use(bodyParser.urlencoded({ extended: false }));
+// appE.use(bodyParser.urlencoded({ extended: false }));
 // var app = require('http').createServer(handler)
 // var io = require('socket.io')(app);
 // var fs = require('fs');
@@ -41,28 +41,28 @@ appE.use(bodyParser.urlencoded({ extended: false }));
 //   });
 // });
 
-appE.post('/', function(req,res){
-	var query1=req.body.var1;
-	console.log(query1);
+// appE.post('/', function(req,res){
+// 	var query1=req.body.var1;
+// 	console.log(query1);
 
 
-	var link = 'http://yoplay.x10host.com/?location=' + req.query.location;
-  		console.log("link to use: " + link);
+// 	var link = 'http://yoplay.x10host.com/?location=' + req.query.location;
+//   		console.log("link to use: " + link);
   		
-		//sends the yo back with a link
-		request.post(
-		    'http://api.justyo.co/yo/',
-		    { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
-		              'username': req.query.username,
-		              'link': link} },
-		    function (error, response, body) {
-		        if (!error && response.statusCode == 200) {
-		            console.log(body);
-		        }
-		    }
-		);
+// 		//sends the yo back with a link
+// 		request.post(
+// 		    'http://api.justyo.co/yo/',
+// 		    { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
+// 		              'username': req.query.username,
+// 		              'link': link} },
+// 		    function (error, response, body) {
+// 		        if (!error && response.statusCode == 200) {
+// 		            console.log(body);
+// 		        }
+// 		    }
+// 		);
 
-});
+// });
 
 
 // var game = db.collection("game");
