@@ -47,7 +47,7 @@ io.on('connection', function (socket) {
 appE.set('port', (process.env.PORT || 5000));
 
 //When we get a GET request
-app.get('/', function(req, res, next) {
+appE.get('/', function(req, res, next) {
   	
   	console.log(req.query.username);
   	//Yo
@@ -55,16 +55,13 @@ app.get('/', function(req, res, next) {
   	if(req.query.username != undefined){
 
   		var hasGame = false;
-  		// mongodb.MongoClient.connect(uri, function (err, db) {
-		    /* adventure! */
 
-		    var users = db.collection("users");
+	    var users = db.collection("users");
 
-		    if(users.find({username:req.query.username}).count() != 0){
-		    	hasGame = true;
-		    }
+	    if(users.find({username:req.query.username}).count() != 0){
+	    	hasGame = true;
+	    }
 		    
-		// });
 
 		console.log("Username: " + req.query.username + " has game: " + hasGame);
 
