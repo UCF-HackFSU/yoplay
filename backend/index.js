@@ -38,16 +38,16 @@ io.on('connection', function (socket) {
 });
 
 
-var uri = "http://localhost:27017";
+// var uri = "http://localhost:27017";
 
-// mongodb.MongoClient.connect(uri, function (err, db) {
-    /* adventure! */
+// // mongodb.MongoClient.connect(uri, function (err, db) {
+//     /* adventure! */
 
-    var game = db.collection("game");
+//     var game = db.collection("game");
 
-    game.find().toArray(function (err,items) {
-    	console.log(items);
-    });
+//     game.find().toArray(function (err,items) {
+//     	console.log(items);
+//     });
 // });
 //init express stuff
 // app.set('port', (process.env.PORT || 5000));
@@ -121,14 +121,14 @@ var uri = "http://localhost:27017";
 // });
 
 
-io.on('connection', function (socket) {
-	console.log("pls");
+// io.on('connection', function (socket) {
+// 	console.log("pls");
  
 
-  socket.on('update.location', function (data) {
-    console.log(data);
-  });
-});
+//   socket.on('update.location', function (data) {
+//     console.log(data);
+//   });
+// });
 
 
 
