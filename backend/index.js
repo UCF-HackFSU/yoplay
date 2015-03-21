@@ -39,8 +39,8 @@ io.on('connection', function (socket) {
 
   socket.on('update.location', function (data) {
     console.log("update location data: " + JSON.stringify(data));
-    curLat = data.lat;
-    curLon = data.lon;
+    if(data.lat != undefined) curLat = data.lat;
+    if(data.lon != undefined) curLon = data.lon;
     console.log("curLat: " + curLat + "curLon: " + curLon);
   });
 });
