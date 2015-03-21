@@ -1,27 +1,36 @@
 //imports 
-var express = require('express'); //express handles GET requests from Yoes
-var request = require('request'); //requests calls the Yo API
-var mongodb = require('mongojs'); //mongo swag
+// var express = require('express'); //express handles GET requests from Yoes
+// var request = require('request'); //requests calls the Yo API
+// var mongodb = require('mongojs'); //mongo swag
 
-var uri = "yoplay",
-    db = mongodb(uri);
+// var uri = "yoplay",
+//     db = mongodb(uri);
 
 
 
 //init express stuff
-var app = express();
-var http = require('http');
+// var app = express();
 
-var server = http.createServer(requestHandler);
-function requestHandler(req, res) {
-    res.writeHead(200, {"Content-Type": "text/html"});
-    res.write("Hello World");
-    res.end();
+var http = require('http');
+var socketapp = http.createServer(handler);
+var io = require("socket.io")(socketapp);
+var fs = require("fs");
+
+socketapp.listen(8888);
+
+function handler (req, res) {
+  fs.readFile(__dirname + '/index.html',
+  function (err, data) {
+    if (err) {
+      res.writeHead(500);
+      return res.end('Error loading index.html');
+    }
+
+    res.writeHead(200);
+    res.end(data);
+  });
 }
 
-var io = require('socket.io')(server);
-
-server.listen(8888);
 
 var uri = "http://localhost:27017";
 
