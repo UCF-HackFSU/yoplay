@@ -9,7 +9,7 @@ var uri = "yoplay",
 
 
 //init express stuff
-var app = express();
+var appE = express();
 
 var app = require('http').createServer(handler)
 var io = require('socket.io')(app);
@@ -44,7 +44,7 @@ io.on('connection', function (socket) {
     	console.log(items);
     });
 
-app.set('port', (process.env.PORT || 5000));
+appE.set('port', (process.env.PORT || 5000));
 
 //When we get a GET request
 // app.get('/', function(req, res, next) {
