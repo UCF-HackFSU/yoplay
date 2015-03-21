@@ -73,6 +73,7 @@ appE.get('/', function(req, res, next) {
   			var lat = req.query.location.split(";")[0];
   			var lon = req.query.location.split(";")[1];
 
+  			console.log("dist: " + dist(lat, lon) + " <= " + epsilon);
   			if(dist(lat, lon) <= epsilon) {
   				io.sockets.emit('generate.location', {username:req.query.username, lat:lat, lon:lon});
   				console.log("Location match! Requested new location");
