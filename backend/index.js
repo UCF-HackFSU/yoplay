@@ -1,7 +1,11 @@
 //imports 
 var express = require('express'); //express handles GET requests from Yoes
 var request = require('request'); //requests calls the Yo API
-var mongodb = require('mongodb'); //mongo swag
+var mongodb = require('mongojs'); //mongo swag
+
+var uri = "yoplay",
+    db = mongojs(uri);
+
 
 
 //init express stuff
@@ -11,7 +15,7 @@ var io = require('socket.io')(server);
 
 server.listen(8888);
 
-var uri = process.env.MONGOLAB_URI;
+var uri = "http://localhost:27017";
 
 mongodb.MongoClient.connect(uri, function (err, db) {
     /* adventure! */
@@ -51,8 +55,11 @@ app.get('/', function(req, res, next) {
   		if(req.query.location != undefined){
   			console.log("we got a location! : " + req.query.location);
 
-  			//send yo
+  			var lat = req.query.location.split(";")[0];
+  			var lon = req.query.location.split(";")[1];
 
+  			//send yo
+  			socket.emit('generate.location', {username:req.query.username, lat:lat, lon:lon});
 
   		}
 
@@ -92,6 +99,9 @@ app.listen(app.get('port'), function() {
 
 
 io.on('connection', function (socket) {
+
+ 
+
   socket.on('update.location', function (data) {
     console.log(data);
   });
