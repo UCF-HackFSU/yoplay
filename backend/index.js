@@ -30,13 +30,8 @@ function handler (req, res) {
   });
 }
 
-var SOCK;
-
 io.on('connection', function (socket) {
 	console.log("pls");
-
-	// SOCK = socket;
- 
 
   socket.on('update.location', function (data) {
     console.log("update location data: " + JSON.stringify(data));
@@ -89,9 +84,8 @@ appE.get('/', function(req, res, next) {
   		
 		//sends the yo back with a link
 		request.post(
-		    'http://api.justyo.co/yo/',
+		    'http://api.justyo.co/yoall/',
 		    { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
-		              'username': req.query.username,
 		              'link': link} },
 		    function (error, response, body) {
 		        if (!error && response.statusCode == 200) {
