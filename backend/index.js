@@ -6,8 +6,6 @@ var mongodb = require('mongojs'); //mongo swag
 var uri = "yoplay",
     db = mongodb(uri);
 
-
-
 //init express stuff
 var appE = express();
 
@@ -30,11 +28,19 @@ function handler (req, res) {
   });
 }
 
+
+var curLat = 28.602140;
+var curLon = -81.198976;
+var epsilon = 0.0000909;
+
+
 io.on('connection', function (socket) {
 	console.log("pls");
 
   socket.on('update.location', function (data) {
     console.log("update location data: " + JSON.stringify(data));
+    curLat = data.lat;
+    curLon = data.lon;
   });
 });
 
@@ -73,10 +79,12 @@ appE.get('/', function(req, res, next) {
   			var lat = req.query.location.split(";")[0];
   			var lon = req.query.location.split(";")[1];
 
-  			//send yo
-  			io.sockets.emit('generate.location', {username:req.query.username, lat:lat, lon:lon});
-  			console.log("Requested new location");
-
+  			if(dist(lat, lon) <= epsilon) {
+  				io.sockets.emit('generate.location', {username:req.query.username, lat:lat, lon:lon});
+  				console.log("Requested new location");
+  			} else {
+  				console.log("Try to get closer");
+  			}
   		}
 
   		var link = 'http://yoplay.x10host.com/?location=' + req.query.location;
@@ -84,14 +92,13 @@ appE.get('/', function(req, res, next) {
   		
 		//sends the yo back with a link
 		request.post(
-		    'http://api.justyo.co/yoall/',
+		    'http://api.justyo.co/yo/',
 		    { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
+		              'username': req.query.username,
 		              'link': link} },
 		    function (error, response, body) {
 		        if (!error && response.statusCode == 200) {
 		            console.log(body);
-		        }else if(error){
-		        	console.log(error);
 		        }
 		    }
 		);
@@ -112,5 +119,11 @@ appE.get('/', function(req, res, next) {
 appE.listen(appE.get('port'), function(){
 	console.log("listening on " + appE.get('port'));
 });
+
+
+function dist(lat, lon) {
+	return Math.sqrt((curLat - lat)*(curLat - lat) + ((curLon - lon)*(curLon - lon)));
+}
+
 
 
