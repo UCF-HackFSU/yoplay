@@ -1,23 +1,21 @@
 //imports 
 var express = require('express'); //express handles GET requests from Yoes
 var request = require('request'); //requests calls the Yo API
-// var mongodb = require('mongojs'); //mongo swag
-// var bodyParser = require("body-parser");
+var mongodb = require('mongojs'); //mongo swag
 
-var uri = "yoplay";
-//     db = mongodb(uri);
+var uri = "yoplay",
+    db = mongodb(uri);
 
 
 
 //init express stuff
 var appE = express();
 
-// appE.use(bodyParser.urlencoded({ extended: false }));
 // var app = require('http').createServer(handler)
 // var io = require('socket.io')(app);
 // var fs = require('fs');
 
-// app.listen(80);
+// app.listen(8888);
 
 // function handler (req, res) {
 //   fs.readFile(__dirname + '/index.html',
@@ -41,37 +39,14 @@ var appE = express();
 //   });
 // });
 
-// appE.post('/', function(req,res){
-// 	var query1=req.body.var1;
-// 	console.log(query1);
 
+var game = db.collection("game");
 
-// 	var link = 'http://yoplay.x10host.com/?location=' + req.query.location;
-//   		console.log("link to use: " + link);
-  		
-// 		//sends the yo back with a link
-// 		request.post(
-// 		    'http://api.justyo.co/yo/',
-// 		    { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
-// 		              'username': req.query.username,
-// 		              'link': link} },
-// 		    function (error, response, body) {
-// 		        if (!error && response.statusCode == 200) {
-// 		            console.log(body);
-// 		        }
-// 		    }
-// 		);
+game.find().toArray(function (err,items) {
+	console.log(items);
+});
 
-// });
-
-
-// var game = db.collection("game");
-
-// game.find().toArray(function (err,items) {
-// 	console.log(items);
-// });
-
-appE.set('port', (5000));
+appE.set('port', (process.env.PORT || 5000));
 
 //When we get a GET request
 appE.get('/', function(req, res, next) {
@@ -83,11 +58,11 @@ appE.get('/', function(req, res, next) {
 
   		var hasGame = false;
 
-	    // var users = db.collection("users");
+	    var users = db.collection("users");
 
-	    // if(users.find({username:req.query.username}).count() != 0){
-	    // 	hasGame = true;
-	    // }
+	    if(users.find({username:req.query.username}).count() != 0){
+	    	hasGame = true;
+	    }
 		    
 
 		console.log("Username: " + req.query.username + " has game: " + hasGame);
@@ -100,7 +75,7 @@ appE.get('/', function(req, res, next) {
   			var lon = req.query.location.split(";")[1];
 
   			//send yo
-  			//socket.emit('generate.location', {username:req.query.username, lat:lat, lon:lon});
+  			socket.emit('generate.location', {username:req.query.username, lat:lat, lon:lon});
   			console.log("Requested new location");
 
   		}
@@ -137,6 +112,5 @@ appE.get('/', function(req, res, next) {
 appE.listen(appE.get('port'), function(){
 	console.log("listening on " + appE.get('port'));
 });
-
 
 
