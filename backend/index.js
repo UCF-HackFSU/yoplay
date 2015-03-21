@@ -99,7 +99,7 @@ app.listen(app.get('port'), function() {
 
 
 io.on('connection', function (socket) {
-
+	console.log("pls");
  
 
   socket.on('update.location', function (data) {
