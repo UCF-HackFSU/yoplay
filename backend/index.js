@@ -231,9 +231,8 @@ appE.get('/', function(req, res, next) {
     				curLat = doc[0].lat;
     				curLon = doc[0].lon;
     			}
-			});
 
-			var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon + "&lastUser=" + lastUser + "&elapsedClues=" + elapsedClues;
+    			var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon + "&lastUser=" + lastUser + "&elapsedClues=" + elapsedClues;
 			console.log("link to use: " + link);
 			
 			//sends the yo back with a link
@@ -248,6 +247,24 @@ appE.get('/', function(req, res, next) {
 			        }
 			    }
 			);
+    			
+			});
+
+			// var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon + "&lastUser=" + lastUser + "&elapsedClues=" + elapsedClues;
+			// console.log("link to use: " + link);
+			
+			// //sends the yo back with a link
+			// request.post(
+			//     'http://api.justyo.co/yo/',
+			//     { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
+			//               'username': req.query.username,
+			//               'link': link} },
+			//     function (error, response, body) {
+			//         if (!error && response.statusCode == 200) {
+			//             console.log(body);
+			//         }
+			//     }
+			// );
 
 		}, 5000);
 	}
