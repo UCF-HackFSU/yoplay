@@ -52,10 +52,12 @@ points.find().sort({_id:-1}, function(err, docs) {
 // lastUserDB.findAndModify({query:{}, update:{$set:{lastUser:lastUser}}, upsert:true}, function(err, doc, lastErrorObject) {
 //     // doc.tag === 'maintainer'
 // });
-// lastUserDB.find({}, function(docs){
-// 	if(docs != undefined && docs != null && docs.lastUser != undefined)
-// 		lastUser = docs.lastUser;
-// });
+lastUserDB.find({}, function(docs){
+	if(docs != undefined && docs != null && docs.lastUser != undefined && docs.lastUser != null)
+		console.log("lastUser in DB: " + docs.lastUser);
+	else
+		lastUserDB.update({}, {'$set':{lastUser:"No one yet!"}}, {'upsert':true});
+});
 // lastUserDB.update({}, {$set:{lastUser:lastUser}}, {upsert:true});
 var pointsArr = [];
 
