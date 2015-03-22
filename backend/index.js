@@ -49,7 +49,9 @@ points.find().sort({_id:-1}, function(err, docs) {
   			elapsedClues = docs.length;
   		});
 var lastUser = "";
-lastUserDB.update({}, {'$set':{lastUser:lastUser}}, {'upsert':true})
+lastUserDB.findAndModify({query:{}, update:{$set:{lastUser:lastUser}}, upsert:true}, function(err, doc, lastErrorObject) {
+    // doc.tag === 'maintainer'
+});
 var pointsArr = [];
 
 
@@ -69,7 +71,10 @@ io.on('connection', function (socket) {
 		var tempPoint = {lat:data.lat,lon:data.lon};
 		pointsArr.push(tempPoint);
 		lastUser = data.username;
-		lastUserDB.update({}, {'$set':{lastUser:lastUser}}, {'upsert':true});
+		//lastUserDB.update({}, {'$set':{lastUser:lastUser}}, {'upsert':true});
+		lastUserDB.findAndModify({query:{}, update:{$set:{lastUser:lastUser}}, upsert:true}, function(err, doc, lastErrorObject) {
+    // doc.tag === 'maintainer'
+		});
 		elapsedClues++;
 		//TODO:Add lat lon to Mongo
 		points.save(tempPoint);
