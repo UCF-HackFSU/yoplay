@@ -32,7 +32,7 @@ var points = db.collection("points");
 var curLocation = {lat:28.602140, lon: -81.198976};
 points.findOne().sort({_id:-1}, function(err, doc) {
     // docs is now a sorted array
-    if(doc.lat != undefined && doc.lat != null && doc.lon != undefined && doc.lon != null){}
+    if(doc.lat != undefined && doc.lat != null && doc.lon != undefined && doc.lon != null){
     	curLocation.lat = doc.lat;
     	curLocation.lon = doc.lon;
     }
