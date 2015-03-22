@@ -73,7 +73,7 @@ io.on('connection', function (socket) {
 		pointsArr.push(tempPoint);
 		lastUser = data.username;
 		lastUserDB.update({}, {$set:{lastUser:lastUser}}, {upsert:true});
-		console.log("update: " lastUser);
+		console.log("update: " + lastUser);
 
 		// lastUserDB.update({}, {$set:{lastUser:lastUser}, {upsert:true}, function() {
   //   // doc.tag === 'maintainer'
