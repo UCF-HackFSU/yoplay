@@ -39,13 +39,17 @@ points.find().sort({_id:-1}, function(err, doc) {
 });
 
 var users = db.collection("users");
-
+var lastUserDB = db.collection("lastUserDB");
 
 var curLat = curLocation.lat;
 var curLon = curLocation.lon;
 var epsilon = 0.0004000;
 var elapsedClues = 1;
+points.find().sort({_id:-1}, function(err, docs) {
+  			elapsedClues = docs.length;
+  		});
 var lastUser = "";
+lastUserDB.update({}, {'$set':{lastUser:lastUser}}, {'upsert':true})
 var pointsArr = [];
 
 
@@ -65,6 +69,7 @@ io.on('connection', function (socket) {
 		var tempPoint = {lat:data.lat,lon:data.lon};
 		pointsArr.push(tempPoint);
 		lastUser = data.username;
+		lastUserDB.update({}, {'$set':{lastUser:lastUser}}, {'upsert':true});
 		elapsedClues++;
 		//TODO:Add lat lon to Mongo
 		points.save(tempPoint);
@@ -100,10 +105,16 @@ io.on('connection', function (socket) {
 
   socket.on('request.lastUser', function(data){
   	socket.emit('received.lastUser', lastUser);
+  	lastUserDB.find({}, function(err, docs) {	
+  		socket.emit('received.lastUser', docs.lastUser);
+  	});
   });
 
   socket.on('request.elapsedClues', function(data){
-  	socket.emit('received.elapsedClues', elapsedClues);
+  	// socket.emit('received.elapsedClues', elapsedClues);
+  	points.find().sort({_id:-1}, function(err, docs) {
+  			socket.emit('received.elapsedClues', docs.length);
+  	});
   });
 
 });
@@ -136,6 +147,7 @@ appE.get('/', function(req, res, next) {
   			console.log("dist: " + dist(lat, lon) + " <= " + epsilon);
   			if(dist(lat, lon) <= epsilon) {
   				io.sockets.emit('generate.location', {username:req.query.username, lat:lat, lon:lon});
+  				lastUser = data.username;
   				console.log("Location match! Requested new location");
   				var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
 				console.log("link to use: " + link);
