@@ -183,7 +183,7 @@ appE.get('/', function(req, res, next) {
 			);
 		}*/
 
-		points.find().sort({_id:-1}, function(err, doc) {
+		points.find().sort({_id:-1}, function(err, docs) {
   			elapsedClues = docs.length;
   		});
 
