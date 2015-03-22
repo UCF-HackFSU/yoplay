@@ -8,6 +8,11 @@ var orLat = lat = 28.601654;
 var orLon = lon = -81.198745;
 var MAX_DEG = 0.0136;
 
+document.getElementById("stats").addEventListener("click", page);
+function page() {
+  window.location = 'http://yoplay.x10host.com/stats.html';
+}
+
 var streetViewService = new google.maps.StreetViewService();
 var userloc = getQueryVariable("location").split(";");
 var socket = io("http://104.236.75.161:8888");
@@ -48,13 +53,6 @@ socket.on("generate.location", function(data) {
 // Initialize the map view and street view
 function initialize() {
   var ul = getQueryVariable("location").split(";");
-  var un = getQueryVariable("lastUser");
-  var ct = getQueryVariable("elapsedClues");
-  
-  var strUser = "Last found by: " + un;
-  if(un.trim().length <= 0) strUser = "New game";
-
-  var strClue = "Clues: " + ct;
 
   orLat = parseFloat(ul[0]);
   orLon = parseFloat(ul[1]);
@@ -72,22 +70,18 @@ function initialize() {
     pov: {
       heading: 34,
       pitch: 10
-    }
+    },
+    streetNamesEnabled: false
   };
 
   var panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
 
   // Make sure theres a streetview associated with this latlon within 20m
   // or else we have to generate a new one
-  streetViewService.getPanoramaByLocation(point, 50, function (streetViewPanoramaData, status) {
+  streetViewService.getPanoramaByLocation(point, 100, function (streetViewPanoramaData, status) {
     if (status === google.maps.StreetViewStatus.OK) {
         // ok
         console.log("New image!");
-        document.getElementById("statsUser").innerHTML = strUser;
-        document.getElementById("statsClues").innerHTML = strClue;
-        console.log("updated string");
-        if(alertmsg.length > 0) alert(alertmsg);
-        alertmsg = "";
         // Save lat/lon in the database
         latitude = streetViewPanoramaData.location.latLng.lat();
         longitude = streetViewPanoramaData.location.latLng.lng();
@@ -123,15 +117,15 @@ function nearest() {
   var nextLat, nextLon;
   
   if(getRandomInt(0,1) == 1) {
-    nextLat = latitude + 0.001;
+    nextLat = latitude + 0.01;
   } else {
-    nextLat = latitude - 0.001;
+    nextLat = latitude - 0.01;
   }
   
   if(getRandomInt(0,1) ==1) {
-    nextLon = longitude + 0.001;
+    nextLon = longitude + 0.01;
   } else {
-    nextLon = longitude - 0.001;
+    nextLon = longitude - 0.01;
   }
   
   console.log("Generated nearest clue: " + nextLat + "," + nextLon);
@@ -246,14 +240,15 @@ function initialize2(newLat, newLon) {
     pov: {
       heading: 34,
       pitch: 10
-    }
+    },
+    streetNamesEnabled: false
   };
 
   var panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
 
   // Make sure theres a streetview associated with this latlon within 20m
   // or else we have to generate a new one
-  streetViewService.getPanoramaByLocation(point, 50, function (streetViewPanoramaData, status) {
+  streetViewService.getPanoramaByLocation(point, 100, function (streetViewPanoramaData, status) {
     if (status === google.maps.StreetViewStatus.OK) {
         // ok
         console.log("New image!");
@@ -266,6 +261,7 @@ function initialize2(newLat, newLon) {
         // no street view available in this range, or some error occurred
         console.log("No street view available.....finding nearest location");
         nearest();
+        initialize2(latitude, longitude);
     }
   });
 
@@ -273,6 +269,11 @@ function initialize2(newLat, newLon) {
 
   socket.emit("update.location", {username:username, lat:latitude, lon:longitude});
   console.log("emitted: " + JSON.stringify({username:username, lat:latitude, lon:longitude}));
+}
+
+function goToStats () {
+  //go to stats
+  window.location="http://yoplay.x10host.com/stats.html";
 }
 
 // Need to figure out what degree our epsilon should be when comparing

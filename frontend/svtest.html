@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Street View service</title>
+    <title>YoPlay</title>
     <link href='http://fonts.googleapis.com/css?family=Montserrat:700' rel='stylesheet' type='text/css'>
     <style>
       html, body, #map-canvas {
@@ -13,8 +13,8 @@
       #stats {
           text-align: center;
           vertical-align: middle;
-          line-height: 150px;
-          font-size: 36px;
+          line-height: 200px;
+          font-size: 80px;
           font-family: 'Montserrat', sans-serif;
           color: white;
           text-transform: uppercase;
@@ -29,8 +29,9 @@
           overflow: hidden;
       }
       #statsClues {
-        float: right;
-        margin-right: 20px;
+        /*float: right;*/
+        /*margin-right: 20px;*/
+        float: left;
       }
     </style>
     <script src="http://104.236.75.161:8888/socket.io/socket.io.js"></script>
@@ -38,13 +39,11 @@
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
   </head>
   <body>
-    <div id="stats" style="width:100%; height: 150px; float: left; background-color: #F1C40F; text-align: center;">
-      <img src="location.png" height="60px" width="60px" style="margin-top:12px; position:absolute;" />
-      <span id="statsUser"></span>
-      <span id="statsClues"></span>
-    </div>
     <div id="map-canvas" style="width: 100%; height: 100%;float:left; display: none"></div>
-    <div id="pano" style="width: 100%; height: 90%;float:left; display: block"></div>
+    <div id="pano" style="width: 100%; height: 85%;float:left; display: block"></div>
+    <div id="stats" style="width:100%; height: 200px; float: left; background-color: #F1C40F; text-align: center;">
+      Go to stats
+    </div>
   </body>
 
     <script src="sv.js"></script>
