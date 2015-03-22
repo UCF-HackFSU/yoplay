@@ -117,6 +117,13 @@ io.on('connection', function (socket) {
   	});
   });
 
+  socket.on('request.location', function(data){
+
+  	points.find().sort({_id:1}, function(err, doc) {	
+  		socket.emit('received.location', doc[0]);
+  	});
+  });
+
 });
 
 points.find().toArray(function (err,items) {
