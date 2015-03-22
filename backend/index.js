@@ -52,6 +52,10 @@ var lastUser = "";
 // lastUserDB.findAndModify({query:{}, update:{$set:{lastUser:lastUser}}, upsert:true}, function(err, doc, lastErrorObject) {
 //     // doc.tag === 'maintainer'
 // });
+lastUserDB.find({}, function(docs){
+	if(docs != undefined && docs != null && docs.lastUser != undefined)
+		lastUser = docs.lastUser;
+});
 lastUserDB.update({}, {$set:{lastUser:lastUser}}, {upsert:true});
 var pointsArr = [];
 
