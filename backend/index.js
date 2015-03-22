@@ -72,7 +72,7 @@ io.on('connection', function (socket) {
 		var tempPoint = {lat:data.lat,lon:data.lon};
 		pointsArr.push(tempPoint);
 		lastUser = data.username;
-		lastUserDB.update({}, {$set:{lastUser:lastUser}}, {upsert:true});
+		//lastUserDB.update({}, {$set:{lastUser:lastUser}}, {upsert:true});
 		console.log("update: " + lastUser);
 
 		// lastUserDB.update({}, {$set:{lastUser:lastUser}, {upsert:true}, function() {
@@ -90,7 +90,7 @@ io.on('connection', function (socket) {
 		// 	users.save({username:data.username,clues:1});
 		// }
 		users.update({username:data.username}, {'$inc':{'clues':1}}, {'upsert':true});
-		lastUserDB.update(, {'$set':{lastUser:lastUser}}, {'upsert':true});
+		lastUserDB.update({}, {'$set':{lastUser:lastUser}}, {'upsert':true});
 	 }
 
   });
