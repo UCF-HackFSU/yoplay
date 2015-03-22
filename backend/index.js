@@ -225,7 +225,7 @@ appE.get('/', function(req, res, next) {
 		setTimeout(function(){
 
 
-			points.find().sort({_id:-1}, function(err, doc) {
+			points.find().sort({_id:1}, function(err, doc) {
     		// docs is now a sorted array
     		if(doc[0] != undefined && doc[0] != null && doc[0].lat != undefined && doc[0].lat != null && doc[0].lon != undefined && doc[0].lon != null){
     				curLat = doc[0].lat;
