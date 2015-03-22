@@ -69,13 +69,13 @@ io.on('connection', function (socket) {
 		//TODO:Add lat lon to Mongo
 		points.save(tempPoint);
 
-		if(users.find({username: data.username}).count() > 0){
-			users.update({username:data.username}, {$inc:{clues:1}}, {multi:true}, function() {
-    			// the update is complete
-			});
-		}else{
-			users.save({username:data.username,clues:1});
-		}
+		// if(users.find({username: data.username}).count() > 0){
+		// 	users.update({username:data.username}, {$inc:{clues:1}}, {multi:true}, function() {
+  //   			// the update is complete
+		// 	});
+		// }else{
+		// 	users.save({username:data.username,clues:1});
+		// }
 
 	 }
 
