@@ -28,15 +28,14 @@ function handler (req, res) {
   });
 }
 
+var points = db.collection("points");
 
-var curLat = 28.602140;
-var curLon = -81.198976;
+var curLat = points.find({index:stats().count}).lat || 28.602140;
+var curLon = points.find({index:stats().count}).lon || -81.198976;
 var epsilon = 0.0004000;
 var elapsedClues = 1;
 var lastUser = "";
 var pointsArr = [];
-
-var points = db.collection("points");
 
 
 io.on('connection', function (socket) {
@@ -52,12 +51,12 @@ io.on('connection', function (socket) {
 	    var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
 		console.log("link to use: " + link);
 
-		var tempPoint = {lat:data.lat,lon:data.lon};
+		var tempPoint = {index:points.stats().count++,lat:data.lat,lon:data.lon};
 		pointsArr.push(tempPoint);
 		lastUser = data.username;
 		elapsedClues++;
 		//TODO:Add lat lon to Mongo
-
+		points.save(tempPoint);
 
 	 }
 
