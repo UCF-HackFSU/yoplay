@@ -48,7 +48,7 @@ var elapsedClues = 1;
 points.find().sort({_id:-1}, function(err, docs) {
   			elapsedClues = docs.length;
   		});
-var lastUser = "";
+var lastUser;
 // lastUserDB.findAndModify({query:{}, update:{$set:{lastUser:lastUser}}, upsert:true}, function(err, doc, lastErrorObject) {
 //     // doc.tag === 'maintainer'
 // });
