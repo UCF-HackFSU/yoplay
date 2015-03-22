@@ -36,7 +36,8 @@ points.find().sort({_id:-1}, function(err, doc) {
     	curLocation.lat = doc[0].lat;
     	curLocation.lon = doc[0].lon;
     }
-});
+})
+
 var curLat = curLocation.lat;
 var curLon = curLocation.lon;
 var epsilon = 0.0004000;
