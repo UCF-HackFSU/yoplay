@@ -8,19 +8,59 @@ var orLat = lat = 28.601654;
 var orLon = lon = -81.198745;
 var MAX_DEG = 0.0136;
 
-document.getElementById("switchView").addEventListener("click", switchView);
-document.getElementById("nextLoc").addEventListener("click", nextLoc);
 var streetViewService = new google.maps.StreetViewService();
 var userloc = getQueryVariable("location").split(";");
+var socket = io("http://104.236.75.161:8888");
 orLat = parseFloat(userloc[0]);
 orLon = parseFloat(userloc[1]);
 
 lat = orLat;
 lon = orLon;
+var username;
+var latitude;
+var longitude;
+var numClues;
+
+var alertmsg = "";
+
+socket.on("generate.location", function(data) {
+  alertmsg = "New clue! ";
+  username = data.username;
+  latitude = data.lat;
+  longitude = data.lon;
+  nextLoc();
+  // if(getRandomInt(0,1) == 1) {
+  //   latitude += 0.01;
+  // } else {
+  //   latitude -= 0.01;
+  // }
+
+  // if(getRandomInt(0,1) == 1) {
+  //   longitude += 0.01;
+  // } else {
+  //   longitude -= 0.01;
+  // }
+  // lat = 48.858593;
+  // lon = 2.294473;
+  initialize2(parseFloat(latitude), parseFloat(longitude));
+});
 
 // Initialize the map view and street view
 function initialize() {
-  var point = new google.maps.LatLng(lat, lon);
+  var ul = getQueryVariable("location").split(";");
+  var un = getQueryVariable("lastUser");
+  var ct = getQueryVariable("elapsedClues");
+  
+  var strUser = "Last found by: " + un;
+  if(un.trim().length <= 0) strUser = "New game";
+
+  var strClue = "Clues: " + ct;
+
+  orLat = parseFloat(ul[0]);
+  orLon = parseFloat(ul[1]);
+  latitude = orLat;
+  longitude = orLon;
+  var point = new google.maps.LatLng(orLat, orLon);
   var mapOptions = {
     center: point,
     zoom: 14
@@ -34,6 +74,7 @@ function initialize() {
       pitch: 10
     }
   };
+
   var panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
 
   // Make sure theres a streetview associated with this latlon within 20m
@@ -42,15 +83,24 @@ function initialize() {
     if (status === google.maps.StreetViewStatus.OK) {
         // ok
         console.log("New image!");
+        document.getElementById("statsUser").innerHTML = strUser;
+        document.getElementById("statsClues").innerHTML = strClue;
+        console.log("updated string");
+        if(alertmsg.length > 0) alert(alertmsg);
+        alertmsg = "";
         // Save lat/lon in the database
+        latitude = streetViewPanoramaData.location.latLng.lat();
+        longitude = streetViewPanoramaData.location.latLng.lng();
     } else {
         // no street view available in this range, or some error occurred
         console.log("No street view available.....finding nearest location");
         nearest();
+        initialize();
     }
   });
 
   map.setStreetView(panorama);
+  console.log("Set");
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
@@ -73,22 +123,24 @@ function nearest() {
   var nextLat, nextLon;
   
   if(getRandomInt(0,1) == 1) {
-    nextLat = lat + 0.001;
+    nextLat = latitude + 0.001;
   } else {
-    nextLat = lat - 0.001;
+    nextLat = latitude - 0.001;
   }
   
   if(getRandomInt(0,1) ==1) {
-    nextLon = lon + 0.001;
+    nextLon = longitude + 0.001;
   } else {
-    nextLon = lon - 0.001;
+    nextLon = longitude - 0.001;
   }
   
   console.log("Generated nearest clue: " + nextLat + "," + nextLon);
-  lat = nextLat;
-  lon = nextLon;
-  initialize();
-  
+  // lat = nextLat;
+  // lon = nextLon;
+  latitude = nextLat;
+  longitude = nextLon;
+
+  //initialize2(parseFloat(nextLat), parseFloat(nextLon));
 }
 
 // Choose the next lat/lon point
@@ -103,15 +155,15 @@ function nextLoc() {
   var rand = getRandomNum(0.00036, 0.0036);
   //var rand = getRandomNum(0.01, 0.1);
   if(getRandomInt(0,1) == 1) {
-    nextLat = lat + rand;
+    nextLat = latitude + rand;
   } else {
-    nextLat = lat - rand;
+    nextLat = latitude - rand;
   }
   
   if(getRandomInt(0,1) ==1) {
-    nextLon = lon + rand;
+    nextLon = longitude + rand;
   } else {
-    nextLon = lon - rand;
+    nextLon = longitude - rand;
   }
 
   console.log("Generated parsed clue: " + nextLat + "," + nextLon);
@@ -121,15 +173,34 @@ function nextLoc() {
     console.log("Next clue: " + nextLat + "," + nextLon + ": too far...recalculating");
     if(nextLat > orLat) nextLat -= 0.0015;
     else nextLat += 0.0015;
-
     if(nextLon > orLon) nextLon -= 0.0015;
     else nextLon += 0.0015;
   }*/
 
   console.log("Next clue: " + nextLat + "," + nextLon);
-  lat = nextLat;
-  lon = nextLon;
-  initialize();
+  latitude = nextLat;
+  longitude = nextLon;
+  
+  if(!validSV()) nearest();
+}
+
+function validSV() {
+  var point = new google.maps.LatLng(lat, lon);
+
+  // Make sure theres a streetview associated with this latlon within 20m
+  // or else we have to generate a new one
+  streetViewService.getPanoramaByLocation(point, 50, function (streetViewPanoramaData, status) {
+    if (status === google.maps.StreetViewStatus.OK) {
+        // ok
+        console.log("New image!");
+        return true;
+        // Save lat/lon in the database
+    } else {
+        // no street view available in this range, or some error occurred
+        console.log("No street view available.....finding nearest location");
+        return false;
+    }
+  });
 }
 
 function getRandomNum(min, max) {
@@ -156,6 +227,52 @@ function getQueryVariable(variable)
                if(pair[0] == variable){return pair[1];}
        }
        return(false);
+}
+
+function initialize2(newLat, newLon) {
+
+  latitude = newLat;
+  longitude = newLon;
+
+  var point = new google.maps.LatLng(newLat, newLon);
+  var mapOptions = {
+    center: point,
+    zoom: 14
+  };
+  var map = new google.maps.Map(
+      document.getElementById('map-canvas'), mapOptions);
+  var panoramaOptions = {
+    position: point,
+    pov: {
+      heading: 34,
+      pitch: 10
+    }
+  };
+
+  var panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
+
+  // Make sure theres a streetview associated with this latlon within 20m
+  // or else we have to generate a new one
+  streetViewService.getPanoramaByLocation(point, 50, function (streetViewPanoramaData, status) {
+    if (status === google.maps.StreetViewStatus.OK) {
+        // ok
+        console.log("New image!");
+        if(alertmsg.length > 0) alert(alertmsg);
+        alertmsg = "";
+        // Save lat/lon in the database
+        latitude = streetViewPanoramaData.location.latLng.lat();
+        longitude = streetViewPanoramaData.location.latLng.lng();
+    } else {
+        // no street view available in this range, or some error occurred
+        console.log("No street view available.....finding nearest location");
+        nearest();
+    }
+  });
+
+  map.setStreetView(panorama);
+
+  socket.emit("update.location", {username:username, lat:latitude, lon:longitude});
+  console.log("emitted: " + JSON.stringify({username:username, lat:latitude, lon:longitude}));
 }
 
 // Need to figure out what degree our epsilon should be when comparing

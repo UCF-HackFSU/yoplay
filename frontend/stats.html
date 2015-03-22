@@ -1,0 +1,65 @@
+<html>
+<head>
+<title>Street View Stats</title>
+<link href='http://fonts.googleapis.com/css?family=Montserrat:700' rel='stylesheet' type='text/css'>
+<script src="http://104.236.75.161:8888/socket.io/socket.io.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+
+<style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+      li {
+      	list-style-type: none;
+      	color: white;
+      	font-family: 'Montserrat', sans-serif;
+      	text-align: left;
+      	line-height: 100px;
+      	height: 100px;
+      	text-transform: uppercase;
+      	padding-left: 35%;
+      }
+      li:nth-child(odd) {
+      	background-color: #3498DB;
+      	
+      }
+      li:nth-child(even) {
+      	background-color: #2980B9;
+      }
+      ul {
+      	padding: 0;
+      	margin: 0;
+      }
+    </style>
+
+</head>
+
+<body>
+	<div id="map" style="width: 50%; height: 100%; float:left;"></div>
+	<div id="leaderboard" style="width: 50%; height: 100%; float:right; background-color: #3498DB">
+		<ul id="leaderList">
+			<li>
+				<span style="float: left; width: 200px; text-align: center;">leaderboard</span>
+			</li>
+			<li>
+				<span style="float: left; width: 200px;">isabella</span>
+				<span>50</span>
+			</li>
+			<li>
+				<span style="float: left; width: 200px;">thedoge</span>
+				<span>20</span>
+			</li>
+			<li>
+				<span style="float: left; width: 200px;">someone else</span>
+				<span>10</span>
+			</li>
+		</ul>
+	</div>
+</body>
+
+<script src="plot.js"></script>
+<script src="leader.js"></script>
+</html>
