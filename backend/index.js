@@ -183,8 +183,8 @@ appE.get('/', function(req, res, next) {
 			);
 		}*/
 
-		users.find().sort({clues:1}, function(err, docs) {	
-  			lastUser = docs.length;
+		points.find().sort({_id:-1}, function(err, doc) {
+  			elapsedClues = docs.length;
   		});
 
 		setTimeout(function(){
