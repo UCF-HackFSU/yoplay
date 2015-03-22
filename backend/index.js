@@ -183,6 +183,10 @@ appE.get('/', function(req, res, next) {
 			);
 		}*/
 
+		users.find().sort({clues:1}, function(err, docs) {	
+  			lastUser = docs.length;
+  		});
+
 		setTimeout(function(){
 			var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon + "&lastUser=" + lastUser + "&elapsedClues=" + elapsedClues;
 			console.log("link to use: " + link);
