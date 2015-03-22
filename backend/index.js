@@ -147,7 +147,7 @@ appE.get('/', function(req, res, next) {
   			console.log("dist: " + dist(lat, lon) + " <= " + epsilon);
   			if(dist(lat, lon) <= epsilon) {
   				io.sockets.emit('generate.location', {username:req.query.username, lat:lat, lon:lon});
-  				lastUser = data.username;
+  				lastUser = req.query.username;
   				console.log("Location match! Requested new location");
   				var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
 				console.log("link to use: " + link);
