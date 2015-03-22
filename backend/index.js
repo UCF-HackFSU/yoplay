@@ -71,10 +71,10 @@ io.on('connection', function (socket) {
 		var tempPoint = {lat:data.lat,lon:data.lon};
 		pointsArr.push(tempPoint);
 		lastUser = data.username;
-		//lastUserDB.update({}, {'$set':{lastUser:lastUser}}, {'upsert':true});
-		lastUserDB.findAndModify({query:{}, update:{$set:{lastUser:lastUser}}, upsert:true}, function(err, doc, lastErrorObject) {
-    // doc.tag === 'maintainer'
-		});
+		lastUserDB.update({}, {'$set':{lastUser:lastUser}}, {'upsert':true});
+		// lastUserDB.update({}, {$set:{lastUser:lastUser}, {upsert:true}, function() {
+  //   // doc.tag === 'maintainer'
+		// });
 		elapsedClues++;
 		//TODO:Add lat lon to Mongo
 		points.save(tempPoint);
@@ -160,9 +160,10 @@ appE.get('/', function(req, res, next) {
   			if(dist(lat, lon) <= epsilon) {
   				io.sockets.emit('generate.location', {username:req.query.username, lat:lat, lon:lon});
   				lastUser = req.query.username;
-  				lastUserDB.findAndModify({query:{}, update:{$set:{lastUser:lastUser}}}, function(err, doc, lastErrorObject) {
-    				// doc.tag === 'maintainer'
-				});
+  		// 		lastUserDB.findAndModify({query:{}, update:{$set:{lastUser:lastUser}}}, function(err, doc, lastErrorObject) {
+    // 				// doc.tag === 'maintainer'
+				// });
+				lastUserDB.update({}, {'$set':{lastUser:req.query.username}}, {'upsert':true});
   				console.log("Location match! Requested new location");
   				var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
 				console.log("link to use: " + link);
@@ -247,7 +248,7 @@ appE.get('/', function(req, res, next) {
 			        }
 			    }
 			);
-    			
+
 			});
 
 			// var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon + "&lastUser=" + lastUser + "&elapsedClues=" + elapsedClues;
