@@ -49,9 +49,10 @@ points.find().sort({_id:-1}, function(err, docs) {
   			elapsedClues = docs.length;
   		});
 var lastUser = "";
-lastUserDB.findAndModify({query:{}, update:{$set:{lastUser:lastUser}}, upsert:true}, function(err, doc, lastErrorObject) {
-    // doc.tag === 'maintainer'
-});
+// lastUserDB.findAndModify({query:{}, update:{$set:{lastUser:lastUser}}, upsert:true}, function(err, doc, lastErrorObject) {
+//     // doc.tag === 'maintainer'
+// });
+lastUserDB.update({}, {$set:{lastUser:lastUser}}, {upsert:true});
 var pointsArr = [];
 
 
@@ -71,7 +72,9 @@ io.on('connection', function (socket) {
 		var tempPoint = {lat:data.lat,lon:data.lon};
 		pointsArr.push(tempPoint);
 		lastUser = data.username;
-		lastUserDB.update({}, {'$set':{lastUser:lastUser}}, {'upsert':true});
+		lastUserDB.update({}, {$set:{lastUser:lastUser}}, {upsert:true});
+		console.log("update: " lastUser);
+
 		// lastUserDB.update({}, {$set:{lastUser:lastUser}, {upsert:true}, function() {
   //   // doc.tag === 'maintainer'
 		// });
@@ -87,7 +90,7 @@ io.on('connection', function (socket) {
 		// 	users.save({username:data.username,clues:1});
 		// }
 		users.update({username:data.username}, {'$inc':{'clues':1}}, {'upsert':true});
-
+		lastUserDB.update(, {'$set':{lastUser:lastUser}}, {'upsert':true});
 	 }
 
   });
@@ -163,7 +166,7 @@ appE.get('/', function(req, res, next) {
   		// 		lastUserDB.findAndModify({query:{}, update:{$set:{lastUser:lastUser}}}, function(err, doc, lastErrorObject) {
     // 				// doc.tag === 'maintainer'
 				// });
-				lastUserDB.update({}, {'$set':{lastUser:req.query.username}}, {'upsert':true});
+				//lastUserDB.update({}, {$set:{lastUser:req.query.username}}, {upsert:true});
   				console.log("Location match! Requested new location");
   				var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
 				console.log("link to use: " + link);
