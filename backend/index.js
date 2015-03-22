@@ -119,7 +119,7 @@ io.on('connection', function (socket) {
   	socket.emit('received.lastUser', lastUser);
   	lastUserDB.find({}, function(err, docs) {
   		console.log("In find: " + docs.lastUser);
-  		socket.emit('received.lastUser', docs[0]);
+  		socket.emit('received.lastUser', docs[0].lastUser);
   	});
   });
 
