@@ -69,6 +69,15 @@ io.on('connection', function (socket) {
 	 }
 
   });
+
+
+  socket.on('request.locations', function(data){
+
+  	points.find().sort({_id:-1}, function(err, doc) {	
+  		socket.emit('received.locations', doc);
+  	}
+  });
+
 });
 
 points.find().toArray(function (err,items) {
