@@ -48,15 +48,15 @@ var elapsedClues = 1;
 points.find().sort({_id:-1}, function(err, docs) {
   			elapsedClues = docs.length;
   		});
-var lastUser;
+// var lastUser;
 // lastUserDB.findAndModify({query:{}, update:{$set:{lastUser:lastUser}}, upsert:true}, function(err, doc, lastErrorObject) {
 //     // doc.tag === 'maintainer'
 // });
-lastUserDB.find({}, function(docs){
-	if(docs != undefined && docs != null && docs.lastUser != undefined)
-		lastUser = docs.lastUser;
-});
-lastUserDB.update({}, {$set:{lastUser:lastUser}}, {upsert:true});
+// lastUserDB.find({}, function(docs){
+// 	if(docs != undefined && docs != null && docs.lastUser != undefined)
+// 		lastUser = docs.lastUser;
+// });
+// lastUserDB.update({}, {$set:{lastUser:lastUser}}, {upsert:true});
 var pointsArr = [];
 
 
@@ -75,9 +75,9 @@ io.on('connection', function (socket) {
 
 		var tempPoint = {lat:data.lat,lon:data.lon};
 		pointsArr.push(tempPoint);
-		lastUser = data.username;
+		// lastUser = data.username;
 		//lastUserDB.update({}, {$set:{lastUser:lastUser}}, {upsert:true});
-		console.log("update: " + lastUser);
+		// console.log("update: " + lastUser);
 
 		// lastUserDB.update({}, {$set:{lastUser:lastUser}, {upsert:true}, function() {
   //   // doc.tag === 'maintainer'
@@ -94,7 +94,7 @@ io.on('connection', function (socket) {
 		// 	users.save({username:data.username,clues:1});
 		// }
 		users.update({username:data.username}, {'$inc':{'clues':1}}, {'upsert':true});
-		lastUserDB.update({}, {'$set':{lastUser:lastUser}}, {'upsert':true});
+		lastUserDB.update({}, {'$set':{lastUser:data.username}}, {'upsert':true});
 	 }
 
   });
@@ -116,7 +116,7 @@ io.on('connection', function (socket) {
   });
 
   socket.on('request.lastUser', function(data){
-  	socket.emit('received.lastUser', lastUser);
+  	// socket.emit('received.lastUser', lastUser);
   	lastUserDB.find({}, function(err, docs) {
   		console.log("In find: " + docs.lastUser);
   		socket.emit('received.lastUser', docs[0].lastUser);
@@ -167,7 +167,7 @@ appE.get('/', function(req, res, next) {
   			console.log("dist: " + dist(lat, lon) + " <= " + epsilon);
   			if(dist(lat, lon) <= epsilon) {
   				io.sockets.emit('generate.location', {username:req.query.username, lat:lat, lon:lon});
-  				lastUser = req.query.username;
+  				// lastUser = req.query.username;
   		// 		lastUserDB.findAndModify({query:{}, update:{$set:{lastUser:lastUser}}}, function(err, doc, lastErrorObject) {
     // 				// doc.tag === 'maintainer'
 				// });
@@ -241,7 +241,7 @@ appE.get('/', function(req, res, next) {
     				curLon = doc[0].lon;
     			}
 
-    			var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon + "&lastUser=" + lastUser + "&elapsedClues=" + elapsedClues;
+    			var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
 			console.log("link to use: " + link);
 			
 			//sends the yo back with a link
