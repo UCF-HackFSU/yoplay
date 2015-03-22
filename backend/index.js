@@ -93,7 +93,7 @@ io.on('connection', function (socket) {
   socket.on('request.users', function(data){
 
   	users.find().sort({clues:1}, function(err, docs) {	
-  		socket.emit('received.locations', docs);
+  		socket.emit('received.users', docs);
   	});
 
   });
