@@ -29,9 +29,16 @@ function handler (req, res) {
 }
 
 var points = db.collection("points");
-
-var curLat = points.find({index:points.stats().count}).lat || 28.602140;
-var curLon = points.find({index:points.stats().count}).lon || -81.198976;
+var curLocation {lat:28.602140, lon: -81.198976};
+points.findOne().sort({_id:-1}, function(err, doc) {
+    // docs is now a sorted array
+    if(doc.lat != undefined && doc.lat != null && doc.lon != undefined && doc.lon != null){}
+    	curLocation.lat = doc.lat;
+    	curLocation.lon = doc.lon;
+    }
+});
+var curLat = curLocation.lat;
+var curLon = curLocation.lon;
 var epsilon = 0.0004000;
 var elapsedClues = 1;
 var lastUser = "";
@@ -51,7 +58,7 @@ io.on('connection', function (socket) {
 	    var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
 		console.log("link to use: " + link);
 
-		var tempPoint = {index:points.stats().count++,lat:data.lat,lon:data.lon};
+		var tempPoint = {lat:data.lat,lon:data.lon};
 		pointsArr.push(tempPoint);
 		lastUser = data.username;
 		elapsedClues++;
