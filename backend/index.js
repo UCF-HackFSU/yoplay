@@ -30,8 +30,8 @@ function handler (req, res) {
 
 var points = db.collection("points");
 
-var curLat = points.find({index:stats().count}).lat || 28.602140;
-var curLon = points.find({index:stats().count}).lon || -81.198976;
+var curLat = points.find({index:points.stats().count}).lat || 28.602140;
+var curLon = points.find({index:points.stats().count}).lon || -81.198976;
 var epsilon = 0.0004000;
 var elapsedClues = 1;
 var lastUser = "";
