@@ -75,7 +75,7 @@ io.on('connection', function (socket) {
 
   	points.find().sort({_id:-1}, function(err, doc) {	
   		socket.emit('received.locations', doc);
-  	}
+  	});
   });
 
 });
