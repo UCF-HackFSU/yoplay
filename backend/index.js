@@ -29,7 +29,7 @@ function handler (req, res) {
 }
 
 var points = db.collection("points");
-var curLocation = {lat:40.7577, lon: 73.9857};
+var curLocation = {lat:40.7577, lon: -73.9857};
 points.find().sort({_id:-1}, function(err, doc) {
     // docs is now a sorted array
     if(doc[0] != undefined && doc[0] != null && doc[0].lat != undefined && doc[0].lat != null && doc[0].lon != undefined && doc[0].lon != null){
