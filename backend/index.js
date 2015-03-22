@@ -76,6 +76,7 @@ io.on('connection', function (socket) {
 		// }else{
 		// 	users.save({username:data.username,clues:1});
 		// }
+		users.update({username:data.username}, {'$inc':{'clues':1}}, {'upsert':true});
 
 	 }
 
@@ -84,7 +85,7 @@ io.on('connection', function (socket) {
 
   socket.on('request.locations', function(data){
 
-  	points.find().sort({_id:-1}, function(err, doc) {	
+  	points.find().sort({_id:1}, function(err, doc) {	
   		socket.emit('received.locations', doc);
   	});
   });
