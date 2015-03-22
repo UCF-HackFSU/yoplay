@@ -36,7 +36,10 @@ points.find().sort({_id:-1}, function(err, doc) {
     	curLocation.lat = doc[0].lat;
     	curLocation.lon = doc[0].lon;
     }
-})
+});
+
+var users = db.collection("users");
+
 
 var curLat = curLocation.lat;
 var curLon = curLocation.lon;
@@ -65,6 +68,14 @@ io.on('connection', function (socket) {
 		elapsedClues++;
 		//TODO:Add lat lon to Mongo
 		points.save(tempPoint);
+
+		if(users.find({username: { "$in": data.username}}).count() > 0){
+			users.update({username:data.username}, {$inc:{clues:1}}, {multi:true}, function() {
+    			// the update is complete
+			});
+		}else{
+			users.save({username:data.username,clues:1});
+		}
 
 	 }
 
