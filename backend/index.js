@@ -114,7 +114,7 @@ io.on('connection', function (socket) {
   socket.on('request.lastUser', function(data){
   	socket.emit('received.lastUser', lastUser);
   	lastUserDB.find({}, function(err, docs) {	
-  		socket.emit('received.lastUser', docs.lastUser);
+  		socket.emit('received.lastUser', docs[1]);
   	});
   });
 
