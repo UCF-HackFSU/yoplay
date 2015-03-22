@@ -160,6 +160,9 @@ appE.get('/', function(req, res, next) {
   			if(dist(lat, lon) <= epsilon) {
   				io.sockets.emit('generate.location', {username:req.query.username, lat:lat, lon:lon});
   				lastUser = req.query.username;
+  				lastUserDB.findAndModify({query:{}, update:{$set:{lastUser:lastUser}}, upsert:true}, function(err, doc, lastErrorObject) {
+    				// doc.tag === 'maintainer'
+				});
   				console.log("Location match! Requested new location");
   				var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
 				console.log("link to use: " + link);
