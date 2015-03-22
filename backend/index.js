@@ -30,13 +30,13 @@ function handler (req, res) {
 
 var points = db.collection("points");
 var curLocation = {lat:28.602140, lon: -81.198976};
-points.find().sort({_id:-1}, function(err, doc) {
+points.findOne().sort({_id:-1}, function(err, doc) {
     // docs is now a sorted array
-    if(doc[0].lat != undefined && doc[0].lat != null && doc[0].lon != undefined && doc[0].lon != null){
-    	curLocation.lat = doc[0].lat;
-    	curLocation.lon = doc[0].lon;
+    if(doc != undefined && doc != null && doc.lat != undefined && doc.lat != null && doc.lon != undefined && doc.lon != null){
+    	curLocation.lat = doc.lat;
+    	curLocation.lon = doc.lon;
     }
-})
+});
 
 var curLat = curLocation.lat;
 var curLon = curLocation.lon;
