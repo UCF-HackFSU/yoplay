@@ -98,6 +98,14 @@ io.on('connection', function (socket) {
 
   });
 
+  socket.on('request.lastUser', function(data){
+  	socket.emit('received.lastUser', lastUser);
+  });
+
+  socket.on('request.elapsedClues', function(data){
+  	socket.emit('received.elapsedClues', elapsedClues);
+  });
+
 });
 
 points.find().toArray(function (err,items) {
