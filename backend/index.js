@@ -29,7 +29,7 @@ function handler (req, res) {
 }
 
 var points = db.collection("points");
-var curLocation = {lat:28.602140, lon: -81.198976};
+var curLocation = {lat:40.7577, lon: -73.9857};
 points.find().sort({_id:-1}, function(err, doc) {
     // docs is now a sorted array
     if(doc[0] != undefined && doc[0] != null && doc[0].lat != undefined && doc[0].lat != null && doc[0].lon != undefined && doc[0].lon != null){
@@ -39,13 +39,26 @@ points.find().sort({_id:-1}, function(err, doc) {
 });
 
 var users = db.collection("users");
-
+var lastUserDB = db.collection("lastUserDB");
 
 var curLat = curLocation.lat;
 var curLon = curLocation.lon;
 var epsilon = 0.0004000;
 var elapsedClues = 1;
-var lastUser = "";
+points.find().sort({_id:-1}, function(err, docs) {
+  			elapsedClues = docs.length;
+  		});
+// var lastUser;
+// lastUserDB.findAndModify({query:{}, update:{$set:{lastUser:lastUser}}, upsert:true}, function(err, doc, lastErrorObject) {
+//     // doc.tag === 'maintainer'
+// });
+lastUserDB.find({}, function(docs){
+	if(docs != undefined && docs != null && docs.lastUser != undefined && docs.lastUser != null)
+		console.log("lastUser in DB: " + docs.lastUser);
+	else
+		lastUserDB.update({}, {'$set':{lastUser:"No one yet!"}}, {'upsert':true});
+});
+// lastUserDB.update({}, {$set:{lastUser:lastUser}}, {upsert:true});
 var pointsArr = [];
 
 
@@ -64,7 +77,13 @@ io.on('connection', function (socket) {
 
 		var tempPoint = {lat:data.lat,lon:data.lon};
 		pointsArr.push(tempPoint);
-		lastUser = data.username;
+		// lastUser = data.username;
+		//lastUserDB.update({}, {$set:{lastUser:lastUser}}, {upsert:true});
+		// console.log("update: " + lastUser);
+
+		// lastUserDB.update({}, {$set:{lastUser:lastUser}, {upsert:true}, function() {
+  //   // doc.tag === 'maintainer'
+		// });
 		elapsedClues++;
 		//TODO:Add lat lon to Mongo
 		points.save(tempPoint);
@@ -77,7 +96,7 @@ io.on('connection', function (socket) {
 		// 	users.save({username:data.username,clues:1});
 		// }
 		users.update({username:data.username}, {'$inc':{'clues':1}}, {'upsert':true});
-
+		lastUserDB.update({}, {'$set':{lastUser:data.username}}, {'upsert':true});
 	 }
 
   });
@@ -92,10 +111,32 @@ io.on('connection', function (socket) {
 
   socket.on('request.users', function(data){
 
-  	users.find().sort({clues:1}, function(err, docs) {	
+  	users.find().sort({clues:-1}, function(err, docs) {	
   		socket.emit('received.users', docs);
   	});
 
+  });
+
+  socket.on('request.lastUser', function(data){
+  	// socket.emit('received.lastUser', lastUser);
+  	lastUserDB.find({}, function(err, docs) {
+  		console.log("In find: " + docs.lastUser);
+  		socket.emit('received.lastUser', docs[0].lastUser);
+  	});
+  });
+
+  socket.on('request.elapsedClues', function(data){
+  	// socket.emit('received.elapsedClues', elapsedClues);
+  	points.find().sort({_id:-1}, function(err, docs) {
+  			socket.emit('received.elapsedClues', docs.length);
+  	});
+  });
+
+  socket.on('request.location', function(data){
+
+  	points.find().sort({_id:1}, function(err, doc) {	
+  		socket.emit('received.location', doc[0]);
+  	});
   });
 
 });
@@ -128,6 +169,11 @@ appE.get('/', function(req, res, next) {
   			console.log("dist: " + dist(lat, lon) + " <= " + epsilon);
   			if(dist(lat, lon) <= epsilon) {
   				io.sockets.emit('generate.location', {username:req.query.username, lat:lat, lon:lon});
+  				// lastUser = req.query.username;
+  		// 		lastUserDB.findAndModify({query:{}, update:{$set:{lastUser:lastUser}}}, function(err, doc, lastErrorObject) {
+    // 				// doc.tag === 'maintainer'
+				// });
+				//lastUserDB.update({}, {$set:{lastUser:req.query.username}}, {upsert:true});
   				console.log("Location match! Requested new location");
   				var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
 				console.log("link to use: " + link);
@@ -183,8 +229,21 @@ appE.get('/', function(req, res, next) {
 			);
 		}*/
 
+		points.find().sort({_id:-1}, function(err, docs) {
+  			elapsedClues = docs.length;
+  		});
+
 		setTimeout(function(){
-			var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon + "&lastUser=" + lastUser + "&elapsedClues=" + elapsedClues;
+
+
+			points.find().sort({_id:-1}, function(err, doc) {
+    		// docs is now a sorted array
+    		if(doc[0] != undefined && doc[0] != null && doc[0].lat != undefined && doc[0].lat != null && doc[0].lon != undefined && doc[0].lon != null){
+    				curLat = doc[0].lat;
+    				curLon = doc[0].lon;
+    			}
+
+    			var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
 			console.log("link to use: " + link);
 			
 			//sends the yo back with a link
@@ -199,6 +258,24 @@ appE.get('/', function(req, res, next) {
 			        }
 			    }
 			);
+
+			});
+
+			// var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon + "&lastUser=" + lastUser + "&elapsedClues=" + elapsedClues;
+			// console.log("link to use: " + link);
+			
+			// //sends the yo back with a link
+			// request.post(
+			//     'http://api.justyo.co/yo/',
+			//     { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
+			//               'username': req.query.username,
+			//               'link': link} },
+			//     function (error, response, body) {
+			//         if (!error && response.statusCode == 200) {
+			//             console.log(body);
+			//         }
+			//     }
+			// );
 
 		}, 5000);
 	}
