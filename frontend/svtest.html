@@ -33,12 +33,25 @@
         /*margin-right: 20px;*/
         float: left;
       }
+      #map-hint {
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 999;
+          font-size: 26px;
+          font-family: 'Montserrat', sans-serif;
+          color: grey;
+          background-color: lightgrey;
+          padding: 10px;
+      }
     </style>
     <script src="http://104.236.75.161:8888/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
   </head>
   <body>
+
+    <div id="map-hint">Zoom out for more hints</div>
     <div id="map-canvas" style="width: 100%; height: 100%;float:left; display: none"></div>
     <div id="pano" style="width: 100%; height: 85%;float:left; display: block"></div>
     <div id="stats" style="width:100%; height: 200px; float: left; background-color: #F1C40F; text-align: center;">
