@@ -13,7 +13,7 @@ var app = require('http').createServer(handler)
 var io = require('socket.io')(app);
 var fs = require('fs');
 
-app.listen(8888);
+app.listen(8888,'0.0.0.0');
 
 function handler (req, res) {
   fs.readFile(__dirname + '/index.html',
@@ -292,7 +292,7 @@ appE.get('/', function(req, res, next) {
 		
 });
 
-appE.listen(appE.get('port'), function(){
+appE.listen(appE.get('port'), '0.0.0.0',function(){
 	console.log("listening on " + appE.get('port'));
 });
 
