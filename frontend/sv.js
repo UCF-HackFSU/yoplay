@@ -70,6 +70,7 @@ function initialize() {
   };
   var map = new google.maps.Map(
       document.getElementById('map-canvas'), mapOptions);
+
   var panoramaOptions = {
     position: point,
     pov: {
@@ -103,6 +104,12 @@ function initialize() {
         // Make sure only map is shown
         document.getElementById('pano').style.display = "none";
         document.getElementById('map-canvas').style.display = "inline";
+
+        // This fixes the resizing bug with maps
+        google.maps.event.addListenerOnce(map, 'idle', function() {
+          google.maps.event.trigger(map, 'resize');
+          console.log("resized");
+        });
     }
   });
 
@@ -253,6 +260,7 @@ function initialize2(newLat, newLon) {
 
   var map = new google.maps.Map(
       document.getElementById('map-canvas'), mapOptions);
+
   var panoramaOptions = {
     position: point,
     pov: {
@@ -288,6 +296,12 @@ function initialize2(newLat, newLon) {
         // Make sure only map is shown
         document.getElementById('pano').style.display = "none";
         document.getElementById('map-canvas').style.display = "inline";
+
+        // This fixes the resizing bug with maps
+        google.maps.event.addListenerOnce(map, 'idle', function() {
+          google.maps.event.trigger(map, 'resize');
+          console.log("resized");
+        });
     }
   });
 
