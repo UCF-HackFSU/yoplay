@@ -249,7 +249,7 @@ appE.get('/', function(req, res, next) {
 			//sends the yo back with a link
 			request.post(
 			    'http://api.justyo.co/yo/',
-			    { form: { 'api_token': '50ebf33f-8bb6-4c76-a9ca-d525324055bc',
+			    { form: { 'api_token': '8d1de1b4-68a3-4562-953c-d761b5bc2644',
 			              'username': req.query.username,
 			              'link': link} },
 			    function (error, response, body) {
