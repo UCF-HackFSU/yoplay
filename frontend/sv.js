@@ -58,13 +58,19 @@ function initialize() {
   orLon = parseFloat(ul[1]);
   latitude = orLat;
   longitude = orLon;
+
+  var bounds = new google.maps.LatLngBounds();
   var point = new google.maps.LatLng(orLat, orLon);
+  bounds.extend(point);
+
   var mapOptions = {
     center: point,
+    position: point,
     zoom: 14
   };
   var map = new google.maps.Map(
       document.getElementById('map-canvas'), mapOptions);
+
   var panoramaOptions = {
     position: point,
     pov: {
@@ -78,18 +84,32 @@ function initialize() {
 
   // Make sure theres a streetview associated with this latlon within 20m
   // or else we have to generate a new one
-  streetViewService.getPanoramaByLocation(point, 100, function (streetViewPanoramaData, status) {
+  streetViewService.getPanoramaByLocation(point, 50, function (streetViewPanoramaData, status) {
     if (status === google.maps.StreetViewStatus.OK) {
         // ok
         console.log("New image!");
         // Save lat/lon in the database
         latitude = streetViewPanoramaData.location.latLng.lat();
         longitude = streetViewPanoramaData.location.latLng.lng();
+
+        // Make sure only pano is shown
+        document.getElementById('pano').style.display = "inline";
+        document.getElementById('map-canvas').style.display = "none";
     } else {
         // no street view available in this range, or some error occurred
-        console.log("No street view available.....finding nearest location");
-        nearest();
-        initialize();
+        console.log("No street view available.....showing map instead");
+        
+        map = placeMarker(point, map, bounds);
+
+        // Make sure only map is shown
+        document.getElementById('pano').style.display = "none";
+        document.getElementById('map-canvas').style.display = "inline";
+
+        // This fixes the resizing bug with maps
+        google.maps.event.addListenerOnce(map, 'idle', function() {
+          google.maps.event.trigger(map, 'resize');
+          console.log("resized");
+        });
     }
   });
 
@@ -228,13 +248,19 @@ function initialize2(newLat, newLon) {
   latitude = newLat;
   longitude = newLon;
 
-  var point = new google.maps.LatLng(newLat, newLon);
+  var bounds = new google.maps.LatLngBounds();
+  var point = new google.maps.LatLng(orLat, orLon);
+  bounds.extend(point);
+
   var mapOptions = {
     center: point,
+    position: point,
     zoom: 14
   };
+
   var map = new google.maps.Map(
       document.getElementById('map-canvas'), mapOptions);
+
   var panoramaOptions = {
     position: point,
     pov: {
@@ -248,7 +274,7 @@ function initialize2(newLat, newLon) {
 
   // Make sure theres a streetview associated with this latlon within 20m
   // or else we have to generate a new one
-  streetViewService.getPanoramaByLocation(point, 100, function (streetViewPanoramaData, status) {
+  streetViewService.getPanoramaByLocation(point, 50, function (streetViewPanoramaData, status) {
     if (status === google.maps.StreetViewStatus.OK) {
         // ok
         console.log("New image!");
@@ -257,11 +283,25 @@ function initialize2(newLat, newLon) {
         // Save lat/lon in the database
         latitude = streetViewPanoramaData.location.latLng.lat();
         longitude = streetViewPanoramaData.location.latLng.lng();
+
+        // Make sure only pano is shown
+        document.getElementById('pano').style.display = "inline";
+        document.getElementById('map-canvas').style.display = "none";
     } else {
         // no street view available in this range, or some error occurred
-        console.log("No street view available.....finding nearest location");
-        nearest();
-        initialize2(latitude, longitude);
+        console.log("No street view available.....showing map instead");
+
+        map = placeMarker(point, map, bounds);
+        
+        // Make sure only map is shown
+        document.getElementById('pano').style.display = "none";
+        document.getElementById('map-canvas').style.display = "inline";
+
+        // This fixes the resizing bug with maps
+        google.maps.event.addListenerOnce(map, 'idle', function() {
+          google.maps.event.trigger(map, 'resize');
+          console.log("resized");
+        });
     }
   });
 
@@ -274,6 +314,18 @@ function initialize2(newLat, newLon) {
 function goToStats () {
   //go to stats
   window.location="http://yoplay.x10host.com/stats.html";
+}
+
+function placeMarker(position, map, bounds) {
+  var marker = new google.maps.Marker({
+    position: position,
+    map: map
+  });
+  
+  map.fitBounds(bounds);
+  //map.panToBounds(bounds);
+
+  return map;
 }
 
 // Need to figure out what degree our epsilon should be when comparing
