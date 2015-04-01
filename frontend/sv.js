@@ -15,7 +15,7 @@ function page() {
 
 var streetViewService = new google.maps.StreetViewService();
 var userloc = getQueryVariable("location").split(";");
-var socket = io("http://104.236.75.161:8888");
+var socket = io("http://yoplay.cloudapp.net:8888");
 orLat = parseFloat(userloc[0]);
 orLon = parseFloat(userloc[1]);
 

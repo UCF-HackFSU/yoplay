@@ -3,7 +3,7 @@ var directionsDisplay;
 var directionsService = new google.maps.DirectionsService();
 directionsDisplay = new google.maps.DirectionsRenderer();
 
-var socket = io("http://104.236.75.161:8888");
+var socket = io("http://yoplay.cloudapp.net:8888");
 socket.emit("request.locations");
 
 socket.on("received.locations", function(data) {
