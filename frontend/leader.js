@@ -1,4 +1,4 @@
-var socket = io("http://104.236.75.161:8888");
+var socket = io("http://yoplay.cloudapp.net:8888");
 socket.emit("request.users");
 socket.emit("request.lastUser");
 socket.emit("request.elapsedClues");
