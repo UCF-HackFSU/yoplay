@@ -67,6 +67,10 @@ io.on('connection', function (socket) {
 
   socket.on('update.location', function (data) {
     console.log("update location data: " + JSON.stringify(data));
+
+    var tempLat = curLat,
+    	tempLon = curLon;
+
     if(data.lat != undefined) curLat = data.lat;
     if(data.lon != undefined) curLon = data.lon;
     console.log("curLat: " + curLat + "curLon: " + curLon);
@@ -75,7 +79,7 @@ io.on('connection', function (socket) {
 	    var link = 'http://yoplay.x10host.com/?location=' + curLat + ";" + curLon;
 		console.log("link to use: " + link);
 
-		var tempPoint = {lat:data.lat,lon:data.lon};
+		var tempPoint = {lat:tempLat,lon:tempLon};
 		pointsArr.push(tempPoint);
 		// lastUser = data.username;
 		//lastUserDB.update({}, {$set:{lastUser:lastUser}}, {upsert:true});
